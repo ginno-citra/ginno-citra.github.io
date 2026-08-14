@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Ginno Citra | Automation & Data Portfolio</title>
+    <title>Ginno Citra | AI Automation & Data Specialist</title>
 
     <style>
         * {
@@ -13,220 +13,831 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #172033;
             line-height: 1.6;
-            color: #222;
-            background: #f7f8fa;
         }
 
-        header {
-            background: #111827;
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            font-size: 20px;
-            color: #d1d5db;
-        }
+        /* NAVIGATION */
 
         nav {
-            background: white;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 7%;
         }
 
-        nav a {
-            color: #333;
-            text-decoration: none;
-            margin: 0 15px;
+        .nav-container {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
             font-weight: bold;
+            color: #111827;
         }
 
-        nav a:hover {
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
             color: #2563eb;
         }
 
-        section {
-            max-width: 1000px;
-            margin: auto;
-            padding: 70px 20px;
-        }
+        /* HERO */
 
-        h2 {
-            font-size: 32px;
-            margin-bottom: 25px;
-        }
-
-        .about {
-            text-align: center;
-        }
-
-        .skills {
+        .hero {
+            min-height: 650px;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+            padding: 80px 7%;
+            background: linear-gradient(135deg, #eef4ff, #ffffff);
+        }
+
+        .hero-container {
+            max-width: 1100px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 72px);
+            line-height: 1.05;
+            max-width: 850px;
+            margin-bottom: 25px;
+            color: #111827;
+        }
+
+        .hero h1 span {
+            color: #2563eb;
+        }
+
+        .hero-description {
+            max-width: 680px;
+            font-size: 19px;
+            color: #4b5563;
+            margin-bottom: 35px;
+        }
+
+        .buttons {
+            display: flex;
             gap: 15px;
-        }
-
-        .skill {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .project {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .project h3 {
-            margin-bottom: 10px;
-        }
-
-        .project p {
-            color: #555;
-            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .button {
             display: inline-block;
-            background: #2563eb;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
+            padding: 13px 23px;
+            border-radius: 7px;
             text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
         }
 
-        .button:hover {
+        .primary-button {
+            background: #2563eb;
+            color: white;
+        }
+
+        .primary-button:hover {
             background: #1d4ed8;
         }
 
-        footer {
+        .secondary-button {
+            background: white;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+        }
+
+        .secondary-button:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+        }
+
+        /* GENERAL SECTIONS */
+
+        section {
+            padding: 90px 7%;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-label {
+            color: #2563eb;
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 38px;
+            margin-bottom: 20px;
+            color: #111827;
+        }
+
+        .section-intro {
+            max-width: 700px;
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+
+        /* ABOUT */
+
+        .about {
+            background: white;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: #4b5563;
+            margin-bottom: 18px;
+        }
+
+        .about-highlight {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .about-highlight h3 {
+            margin-bottom: 15px;
+        }
+
+        .about-highlight ul {
+            list-style: none;
+        }
+
+        .about-highlight li {
+            margin-bottom: 12px;
+            color: #4b5563;
+        }
+
+        /* SKILLS */
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .skill {
+            background: white;
+            padding: 25px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .skill:hover {
+            transform: translateY(-4px);
+            border-color: #93c5fd;
+        }
+
+        .skill h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .skill p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* PROJECTS */
+
+        .projects {
+            background: white;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .project {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            transition: 0.2s;
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .project-top {
+            background: #eff6ff;
+            padding: 35px 25px;
+            color: #1d4ed8;
+        }
+
+        .project-top span {
+            font-size: 32px;
+        }
+
+        .project-content {
+            padding: 25px;
+        }
+
+        .project-content h3 {
+            margin-bottom: 12px;
+        }
+
+        .project-content p {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        .tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 20px;
+        }
+
+        .tools span {
+            background: #f3f4f6;
+            color: #4b5563;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        /* CONTACT */
+
+        .contact {
+            text-align: center;
             background: #111827;
             color: white;
+        }
+
+        .contact h2 {
+            color: white;
+        }
+
+        .contact p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: #d1d5db;
+        }
+
+        .contact .primary-button {
+            background: white;
+            color: #111827;
+        }
+
+        .contact .primary-button:hover {
+            background: #e5e7eb;
+        }
+
+        /* FOOTER */
+
+        footer {
+            background: #111827;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
             text-align: center;
-            padding: 30px;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 800px) {
+
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 90px 7%;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            section {
+                padding: 65px 7%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <header>
-        <h1>Ginno Citra</h1>
-        <p>AI Automation Specialist | Power BI | Microsoft 365</p>
-    </header>
+    <!-- NAVIGATION -->
 
     <nav>
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <div class="nav-container">
+
+            <div class="logo">
+                Ginno Citra
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+        </div>
     </nav>
 
-    <section id="about" class="about">
-        <h2>About Me</h2>
 
-        <p>
-            I specialize in automation, data analysis, system support,
-            and Microsoft 365 solutions. I enjoy using technology to
-            simplify repetitive processes, improve efficiency, and
-            turn data into useful insights.
-        </p>
+    <!-- HERO -->
+
+    <header class="hero">
+
+        <div class="hero-container">
+
+            <div class="hero-tag">
+                AI Automation & Data
+            </div>
+
+            <h1>
+                I build smarter
+                <span>business solutions.</span>
+            </h1>
+
+            <p class="hero-description">
+                I'm Ginno Citra, an aspiring AI Automation Specialist
+                focused on building practical automation, data analytics,
+                and Microsoft 365 solutions that simplify repetitive
+                business processes.
+            </p>
+
+            <div class="buttons">
+
+                <a href="#projects" class="button primary-button">
+                    View My Projects
+                </a>
+
+                <a href="https://github.com/ginno-citra" 
+                   target="_blank"
+                   class="button secondary-button">
+                    GitHub
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ABOUT -->
+
+    <section id="about" class="about">
+
+        <div class="section-container">
+
+            <div class="about-grid">
+
+                <div class="about-text">
+
+                    <div class="section-label">
+                        About Me
+                    </div>
+
+                    <h2>
+                        Technology with a practical purpose.
+                    </h2>
+
+                    <p>
+                        I have experience in information systems,
+                        system support, data analysis, and business
+                        process improvement.
+                    </p>
+
+                    <p>
+                        My focus is on using automation and data
+                        tools to reduce repetitive work, improve
+                        workflows, and help businesses make better
+                        decisions.
+                    </p>
+
+                    <p>
+                        I'm currently building my portfolio around
+                        Power Automate, Power BI, Excel, SQL,
+                        Microsoft 365, and AI automation.
+                    </p>
+
+                </div>
+
+
+                <div class="about-highlight">
+
+                    <h3>
+                        What I Can Help With
+                    </h3>
+
+                    <ul>
+
+                        <li>✓ Workflow automation</li>
+
+                        <li>✓ Data dashboards & reporting</li>
+
+                        <li>✓ Excel & Power Query solutions</li>
+
+                        <li>✓ Microsoft 365 automation</li>
+
+                        <li>✓ Data analysis</li>
+
+                        <li>✓ System & technical support</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </section>
+
+
+    <!-- SKILLS -->
 
     <section id="skills">
-        <h2>Skills</h2>
 
-        <div class="skills">
-            <div class="skill">Power Automate</div>
-            <div class="skill">Power BI</div>
-            <div class="skill">Microsoft Excel</div>
-            <div class="skill">SQL</div>
-            <div class="skill">Microsoft 365</div>
-            <div class="skill">Power Query</div>
-            <div class="skill">AI Automation</div>
-            <div class="skill">System Support</div>
+        <div class="section-container">
+
+            <div class="section-label">
+                Skills
+            </div>
+
+            <h2>
+                Tools I work with
+            </h2>
+
+            <p class="section-intro">
+                A combination of automation, data, and technical
+                skills used to build practical business solutions.
+            </p>
+
+
+            <div class="skills-grid">
+
+                <div class="skill">
+
+                    <h3>Power Automate</h3>
+
+                    <p>
+                        Workflow automation, notifications,
+                        approvals, and business processes.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>Power BI</h3>
+
+                    <p>
+                        Interactive dashboards, KPIs,
+                        reporting, and data visualization.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>Microsoft Excel</h3>
+
+                    <p>
+                        Data analysis, formulas, reporting,
+                        Power Query, and automation.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>SQL</h3>
+
+                    <p>
+                        Querying, filtering, analyzing,
+                        and working with structured data.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>Power Query</h3>
+
+                    <p>
+                        Data cleaning, transformation,
+                        and preparation.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>Microsoft 365</h3>
+
+                    <p>
+                        Excel, Forms, SharePoint,
+                        Outlook, and Teams workflows.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>AI Automation</h3>
+
+                    <p>
+                        Exploring AI-powered workflows
+                        and productivity solutions.
+                    </p>
+
+                </div>
+
+
+                <div class="skill">
+
+                    <h3>System Support</h3>
+
+                    <p>
+                        Technical troubleshooting,
+                        system administration, and support.
+                    </p>
+
+                </div>
+
+            </div>
+
         </div>
+
     </section>
 
-    <section id="projects">
-        <h2>Projects</h2>
 
-        <div class="projects">
+    <!-- PROJECTS -->
 
-            <div class="project">
-                <h3>VPN Password Expiration Automation</h3>
+    <section id="projects" class="projects">
 
-                <p>
-                    Automated password expiration notifications using
-                    Power Automate and Excel to help users renew their
-                    passwords before expiration.
-                </p>
+        <div class="section-container">
 
-                <a href="#" class="button">View Project</a>
+            <div class="section-label">
+                Portfolio
             </div>
 
-            <div class="project">
-                <h3>Power BI Sales Dashboard</h3>
+            <h2>
+                Featured Projects
+            </h2>
 
-                <p>
-                    Interactive Power BI dashboard designed to analyze
-                    sales, profit, product categories, and business
-                    performance.
-                </p>
+            <p class="section-intro">
+                Practical projects demonstrating automation,
+                data analysis, and business process improvement.
+            </p>
 
-                <a href="#" class="button">View Project</a>
-            </div>
 
-            <div class="project">
-                <h3>Automated Ticket Approval System</h3>
+            <div class="project-grid">
 
-                <p>
-                    Designed an automated workflow for submitting,
-                    routing, and approving requests using Microsoft
-                    Forms and Power Automate.
-                </p>
 
-                <a href="#" class="button">View Project</a>
+                <!-- PROJECT 1 -->
+
+                <div class="project">
+
+                    <div class="project-top">
+                        <span>⚡</span>
+                    </div>
+
+                    <div class="project-content">
+
+                        <h3>
+                            VPN Password Expiration Automation
+                        </h3>
+
+                        <p>
+                            Automated password expiration reminders
+                            to notify users before their VPN access
+                            expires.
+                        </p>
+
+                        <div class="tools">
+
+                            <span>Power Automate</span>
+                            <span>Excel</span>
+                            <span>Microsoft 365</span>
+
+                        </div>
+
+                        <a href="#" class="button secondary-button">
+                            Case Study
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROJECT 2 -->
+
+                <div class="project">
+
+                    <div class="project-top">
+                        <span>📊</span>
+                    </div>
+
+                    <div class="project-content">
+
+                        <h3>
+                            Sales & Profit Dashboard
+                        </h3>
+
+                        <p>
+                            Interactive Power BI dashboard analyzing
+                            sales, profit, categories, and overall
+                            business performance.
+                        </p>
+
+                        <div class="tools">
+
+                            <span>Power BI</span>
+                            <span>DAX</span>
+                            <span>Power Query</span>
+                            <span>Excel</span>
+
+                        </div>
+
+                        <a href="#" class="button secondary-button">
+                            Case Study
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROJECT 3 -->
+
+                <div class="project">
+
+                    <div class="project-top">
+                        <span>🔄</span>
+                    </div>
+
+                    <div class="project-content">
+
+                        <h3>
+                            Automated Ticket Approval System
+                        </h3>
+
+                        <p>
+                            Designed an automated request workflow
+                            with ticket creation, approval routing,
+                            and email notifications.
+                        </p>
+
+                        <div class="tools">
+
+                            <span>Power Automate</span>
+                            <span>Microsoft Forms</span>
+                            <span>Excel</span>
+                            <span>Outlook</span>
+
+                        </div>
+
+                        <a href="#" class="button secondary-button">
+                            Case Study
+                        </a>
+
+                    </div>
+
+                </div>
+
+
             </div>
 
         </div>
+
     </section>
 
-    <section id="contact" class="about">
-        <h2>Contact</h2>
 
-        <p>
-            Interested in working together?
-        </p>
+    <!-- CONTACT -->
 
-        <br>
+    <section id="contact" class="contact">
 
-        <a href="mailto:your@email.com" class="button">
-            Email Me
-        </a>
+        <div class="section-container">
+
+            <div class="section-label">
+                Contact
+            </div>
+
+            <h2>
+                Let's build something useful.
+            </h2>
+
+            <p>
+                I'm interested in opportunities involving automation,
+                data analysis, technical support, and Microsoft 365
+                solutions.
+            </p>
+
+            <a href="mailto:your-email@example.com"
+               class="button primary-button">
+                Get In Touch
+            </a>
+
+        </div>
+
     </section>
+
+
+    <!-- FOOTER -->
 
     <footer>
-        <p>© 2026 Ginno Citra. All rights reserved.</p>
+
+        <p>
+            © 2026 Ginno Citra. Built with HTML & GitHub Pages.
+        </p>
+
     </footer>
 
 </body>
