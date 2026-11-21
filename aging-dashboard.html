@@ -124,7 +124,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
       <h2 style="margin-top:2rem">The data</h2>
       <p>The report is built on customer ledger entries linked to a customer list, a units list, tenant charge types, and a date table. All names and amounts shown are anonymized.</p>
       <figure class="shot"><span class="ph">Screenshot: Aging Summary page<br>Add the image as assets/aging-summary.png</span><img src="assets/aging-summary.png" alt="Aging Summary page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">Aging Summary: balances by aging bucket, the top 10 past-due customers, and the share of balances over 90 days.</p>
+      <p class="cap">Aging Summary: KPI cards for net balance, past due, advance payments and % over 90 days, with past due broken down by customer type, charge type, aging bucket and building, plus the top 10 owners.</p>
     </div>
   </section>
 
@@ -139,18 +139,20 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
 
       <article class="proj"><div><h3>Posting Date instead of Due Date</h3></div><div><p>Some Due Date values are blank in the ledger, so I used Posting Date for the aging and detail tables. This keeps every row in a bucket.</p></div></article>
 
-      <article class="proj"><div><h3>Advance payments kept separate</h3></div><div><p>Payments made ahead of time are labeled as advance payments, so they don't reduce the past-due totals.</p></div></article>
+      <article class="proj"><div><h3>Advance payments kept separate</h3></div><div><p>Payments made ahead of time are labeled as advance payments and shown as their own KPI, so they don't reduce the past-due totals. Net Balance then combines the two: past due plus advance payments.</p></div></article>
 
-      <article class="proj"><div><h3>Top 10 shows owners and residents only</h3></div><div><p>The developer owns many unsold units and carries one very large balance. Including it shrank every other bar, so the Top 10 chart shows owners and residents only.</p></div></article>
+      <article class="proj"><div><h3>Top 10 shows owners only</h3></div><div><p>The developer owns many unsold units and carries one very large balance, so the Top 10 table excludes it and says so in a note below the table. The developer's balance still appears in the Past Due by Customer Type chart.</p></div></article>
+
+      <article class="proj"><div><h3>A target for % over 90 days</h3></div><div><p>The % over 90 days card divides Over 90 Days by Total Past Due and compares it with a 50% target. At 84.7% it is currently flagged Critical, so the problem stands out right away.</p></div></article>
     </div>
   </section>
 
   <section class="mint body">
     <div class="wrap">
       <h2>Drillthrough to invoice detail</h2>
-      <p>On the summary page, right-click a customer or bucket to open the Aging Detail page filtered to that choice, showing the individual ledger entries behind the numbers.</p>
+      <p>On the summary page, right-click a customer to open the Aging Detail page filtered to that customer, showing the individual ledger entries behind the numbers.</p>
       <figure class="shot"><span class="ph">Screenshot: Aging Detail page<br>Add the image as assets/aging-detail.png</span><img src="assets/aging-detail.png" alt="Aging Detail page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">Aging Detail: ledger entries for the selected customer and bucket.</p>
+      <p class="cap">Aging Detail: ledger entries for the selected customer, grouped by aging bucket.</p>
     </div>
   </section>
 
