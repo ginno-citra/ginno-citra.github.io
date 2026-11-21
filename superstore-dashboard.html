@@ -1,638 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Superstore Sales & Profit Analysis | Power BI</title>
-
-<link rel="stylesheet" href="styles.css">
-
+<meta name="description" content="Three-page Power BI dashboard on Superstore sample data: sales, profit, product performance and regional trends.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f5f7fa;
-  color: #333;
-  line-height: 1.6;
+:root{
+  --bg:#e8f7ec; --ink:#12302f; --muted:#1d5a35; --line:#8fd1a5;
+  --teal:#15803d; --teal-dark:#14532d; --sand:#f08a24; --rust:#b53b0a; --white:#fff;
+  --mint:#e4f8ea; --cream:#d3f7e8; --deep:#14532d; --soft:#c9f2d6;
+  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.125rem/1.6 var(--body)}
+a{color:var(--teal-dark)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+header.top{background:linear-gradient(90deg,#14532d,#15803d);border-bottom:1px solid #1f6b3c}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-top:1rem;padding-bottom:1rem}
+.brand{font:700 1.125rem var(--head);text-decoration:none;color:var(--white)}
+nav a{margin-left:1.25rem;text-decoration:none;color:var(--soft);font-weight:600}
+nav a:hover{color:var(--white);text-decoration:underline}
+header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline-color:var(--sand)}
+.herobg{background:linear-gradient(135deg,#0e3d21 0%,#14532d 45%,#22a05b 100%);color:var(--white)}
+.hero{padding:4.5rem 1.5rem 4.5rem}
+.hero h1{font:700 clamp(2.4rem,6vw,4.25rem)/1.05 var(--head);letter-spacing:-.02em;margin:0 0 1.25rem;max-width:16ch}
+.hero p{max-width:40rem;color:var(--soft);margin:0 0 2rem}
+.btns{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-block;padding:.7rem 1.25rem;border-radius:6px;font-weight:600;text-decoration:none;border:2px solid var(--teal)}
+.btn.primary{background:var(--teal);color:var(--white)}
+.btn.primary:hover{background:var(--teal-dark);border-color:var(--teal-dark)}
+.btn.ghost{color:var(--teal-dark)}
+.btn.ghost:hover{background:#c3e8cf}
+.dark .btn.primary,.herobg .btn.primary{background:var(--sand);border-color:var(--sand);color:#2b1400}
+.dark .btn.primary:hover,.herobg .btn.primary:hover{background:#f7a24f;border-color:#f7a24f}
+.dark .btn.ghost,.herobg .btn.ghost{color:var(--white);border-color:var(--soft)}
+.dark .btn.ghost:hover,.herobg .btn.ghost:hover{background:#1d6a3c}
+section{padding:3.5rem 0}
+section.mint{background:linear-gradient(180deg,#bdeccb 0%,#e4f8ea 100%)}
+section.cream{background:linear-gradient(180deg,#a6ebd2 0%,#d3f7e8 100%);--line:#7fcfb2}
+section.dark{background:linear-gradient(135deg,#14532d 0%,#22a05b 100%);color:var(--white)}
+h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:38rem;margin:0 0 2rem}
+.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.5rem 2.5rem;padding:1.75rem 1rem;margin:0 -1rem;border-top:1px solid var(--line);border-radius:10px;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
+.proj:hover{transform:translateY(-4px);background:rgba(255,255,255,.8);box-shadow:inset 6px 0 0 var(--teal),0 10px 24px rgba(20,83,45,.16);border-top-color:transparent}
+.proj:hover h3{color:var(--teal)}
+.proj:hover + .proj{border-top-color:transparent}
+@media (prefers-reduced-motion:reduce){.proj{transition:none}.proj:hover{transform:none}}
+.proj:first-of-type{border-top:0}
+.proj h3{font:700 1.25rem/1.25 var(--head);margin:0}
+.proj .tools{color:var(--muted);font-size:.9375rem;margin:.4rem 0 0}
+.proj p{margin:0 0 .6rem;max-width:36rem}
+.status{font-size:.9375rem;font-weight:600;color:var(--muted)}
+.status.live{color:var(--teal-dark)}
+.status.wip{color:var(--rust)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem 2.5rem;margin:0;padding:0;list-style:none}
+.skills li{border-left:4px solid var(--teal);padding:.75rem 1rem .75rem 1rem;border-radius:0 8px 8px 0;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-left-width .2s ease,padding-left .2s ease;cursor:default}
+.skills li:nth-child(even){border-left-color:var(--sand)}
+.skills li:hover{transform:translateY(-4px);background:rgba(255,255,255,.85);box-shadow:0 8px 20px rgba(20,83,45,.18);border-left-width:10px;padding-left:calc(1rem - 6px)}
+.skills li:hover strong{color:var(--teal)}
+@media (prefers-reduced-motion:reduce){.skills li{transition:none}.skills li:hover{transform:none}}
+.skills strong{display:block;font-family:var(--head)}
+.skills span{color:var(--muted);font-size:1rem}
+.about p{max-width:40rem;margin:0 0 1rem}
+.contact p{max-width:36rem;color:var(--soft)}
+footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);padding:1.5rem 0 2.5rem;font-size:.9375rem}
+@media (max-width:42rem){
+  .proj{grid-template-columns:1fr}
+  nav a{margin:0 1rem 0 0}
+  .hero{padding-top:3rem}
 }
 
-.project-container {
-  max-width: 1050px;
-  margin: 40px auto;
-  padding: 35px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-}
-
-/* HERO */
-.project-hero {
-  text-align: center;
-  margin-bottom: 45px;
-}
-
-.project-hero h1 {
-  margin-bottom: 10px;
-  color: #004578;
-  font-size: 2.3rem;
-}
-
-.project-subtitle {
-  font-size: 1.1rem;
-  color: #666;
-  max-width: 750px;
-  margin: 0 auto 20px;
-}
-
-.tags {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tag {
-  background: #eef6fb;
-  color: #0078d4;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-/* SECTIONS */
-.section {
-  margin-bottom: 45px;
-}
-
-.section h2 {
-  color: #0078d4;
-  margin-bottom: 15px;
-  font-size: 1.5rem;
-  border-bottom: 2px solid #eef2f5;
-  padding-bottom: 8px;
-}
-
-.section p {
-  color: #555;
-}
-
-/* DASHBOARD PREVIEW */
-.hero-image {
-  margin-top: 25px;
-}
-
-.hero-image img {
-  width: 100%;
-  display: block;
-  border-radius: 10px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-}
-
-.image-caption {
-  text-align: center;
-  color: #777;
-  font-size: 0.9rem;
-  margin-top: 8px;
-}
-
-/* METRICS */
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-}
-
-.metric {
-  background: #eef6fb;
-  padding: 20px 10px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.metric strong {
-  display: block;
-  font-size: 1.7rem;
-  color: #0078d4;
-  margin-bottom: 5px;
-}
-
-/* TWO COLUMN */
-.two-column {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 35px;
-}
-
-/* LIST */
-.feature-list,
-.insight-list,
-.question-list {
-  padding-left: 20px;
-}
-
-.feature-list li,
-.insight-list li,
-.question-list li {
-  margin-bottom: 10px;
-}
-
-/* SCREENSHOTS */
-.screenshots {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-}
-
-.screenshot-card {
-  background: #fafafa;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #e5e5e5;
-}
-
-.screenshot-card img {
-  width: 100%;
-  display: block;
-  border-radius: 7px;
-}
-
-.caption {
-  text-align: center;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  color: #666;
-}
-
-/* VIDEO */
-.video-wrapper {
-  margin-top: 20px;
-}
-
-.video-wrapper video {
-  width: 100%;
-  display: block;
-  border-radius: 10px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-}
-
-.video-embed {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-}
-
-.video-embed iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-/* TECHNICAL BOX */
-.technical-box {
-  background: #f8fafc;
-  border-left: 4px solid #0078d4;
-  padding: 20px 25px;
-  border-radius: 6px;
-}
-
-.technical-box ul {
-  margin-bottom: 0;
-}
-
-/* OUTCOME */
-.outcome-box {
-  background: #eef6fb;
-  padding: 25px;
-  border-radius: 10px;
-}
-
-.outcome-box p {
-  margin: 0;
-}
-
-/* BACK BUTTON */
-.back-button {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 18px;
-  background: #0078d4;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 600;
-}
-
-.back-button:hover {
-  background: #005a9e;
-}
-
-/* RESPONSIVE */
-@media (max-width: 750px) {
-
-  .project-container {
-    margin: 15px;
-    padding: 22px;
-  }
-
-  .project-hero h1 {
-    font-size: 1.8rem;
-  }
-
-  .metrics {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .two-column {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 450px) {
-
-  .metrics {
-    grid-template-columns: 1fr;
-  }
-}
+.pagehero{padding:3rem 1.5rem 3.5rem}
+.pagehero h1{font:700 clamp(2rem,5vw,3.25rem)/1.1 var(--head);letter-spacing:-.02em;margin:1rem 0 1rem;max-width:22ch}
+.pagehero p{max-width:42rem;color:var(--soft);margin:0 0 1.25rem}
+.back{color:var(--soft);text-decoration:none;font-weight:600}
+.back:hover{color:var(--white);text-decoration:underline}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.tag{border:1px solid var(--soft);color:var(--white);padding:.25rem .85rem;border-radius:999px;font-size:.9375rem;font-weight:600}
+.meta{margin-top:1.25rem;font-size:1rem;color:var(--soft)}
+.meta strong{color:var(--white)}
+.body p{max-width:42rem;margin:0 0 1rem}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem}
+.metric{background:rgba(255,255,255,.85);border-radius:10px;padding:1.25rem .75rem;text-align:center;border-top:4px solid var(--teal);color:var(--muted);font-weight:600}
+.metric strong{display:block;font:700 1.9rem var(--head);color:var(--teal-dark);margin-bottom:.15rem}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.two-col ul,.insights{margin:0;padding-left:1.25rem;max-width:36rem}
+.two-col li,.insights li{margin-bottom:.6rem}
+.shot{margin:1.5rem 0 0;background:rgba(255,255,255,.85);border-radius:10px;padding:.75rem;box-shadow:0 8px 24px rgba(20,83,45,.15)}
+.shot img{display:block;width:100%;height:auto;border-radius:6px}
+.shot figcaption{font-size:.9375rem;color:var(--muted);margin:.6rem .25rem .25rem}
+.shots{display:grid;gap:1.5rem}
+.video{margin-top:1.5rem}
+.video video{display:block;width:100%;border-radius:10px;box-shadow:0 8px 24px rgba(20,83,45,.2)}
+.techbox{background:rgba(255,255,255,.85);border-left:6px solid var(--teal);border-radius:0 10px 10px 0;padding:1.25rem 1.5rem}
+.techbox ul{margin:0;padding-left:1.25rem}
+.techbox li{margin-bottom:.5rem}
+.outcome{background:rgba(255,255,255,.85);border-radius:10px;padding:1.5rem;border-left:6px solid var(--sand);max-width:44rem}
+.outcome p{margin:0}
+@media (max-width:48rem){.metrics{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr;gap:1.5rem}}
+@media (max-width:28rem){.metrics{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Ginno Citra</a>
+    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a></nav>
+  </div>
+</header>
 
-<div class="project-container">
-
-  <!-- HERO -->
-  <section class="project-hero">
-
-    <h1>Superstore Sales & Profit Analysis</h1>
-
-    <p class="project-subtitle">
-      An interactive Power BI dashboard designed to help business users
-      monitor sales, profitability, product performance, and regional trends.
-    </p>
-
-    <div class="tags">
-      <span class="tag">Power BI</span>
-      <span class="tag">DAX</span>
-      <span class="tag">Power Query</span>
-      <span class="tag">Data Modeling</span>
-      <span class="tag">Excel</span>
+<main>
+  <div class="herobg">
+    <div class="wrap pagehero">
+      <a class="back" href="index.html#powerbi">&larr; Back to projects</a>
+      <h1>Superstore Sales &amp; Profit Analysis</h1>
+      <p>An interactive Power BI dashboard designed to help business users monitor sales, profitability, product performance, and regional trends.</p>
+      <div class="tags">
+        <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Power Query</span><span class="tag">Data Modeling</span><span class="tag">Excel</span>
+      </div>
+      <p class="meta"><strong>Data:</strong> Superstore sample dataset</p>
     </div>
-
-  </section>
-
-
-  <!-- DASHBOARD PREVIEW -->
-  <section class="section">
-
-    <h2>Dashboard Preview</h2>
-
-    <div class="hero-image">
-
-      <img
-        src="assets/executive-overview.png"
-        alt="Superstore Power BI Executive Overview Dashboard"
-      >
-
-      <div class="image-caption">
-        Executive Overview — Sales, profit, orders, and performance trends
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- PROJECT OVERVIEW -->
-  <section class="section">
-
-    <h2>Project Overview</h2>
-
-    <p>
-      The objective of this project was to transform Superstore sales data
-      into an interactive business intelligence dashboard. The dashboard
-      provides executives and business users with a clear view of sales,
-      profitability, customer performance, product performance, and regional
-      trends.
-    </p>
-
-  </section>
-
-
-  <!-- KEY METRICS -->
-  <section class="section">
-
-    <h2>Key Metrics</h2>
-
-    <div class="metrics">
-
-      <div class="metric">
-        <strong>$2.30M</strong>
-        Total Sales
-      </div>
-
-      <div class="metric">
-        <strong>$286.40K</strong>
-        Total Profit
-      </div>
-
-      <div class="metric">
-        <strong>5K</strong>
-        Total Orders
-      </div>
-
-      <div class="metric">
-        <strong>12.5%</strong>
-        Profit Margin
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- BUSINESS QUESTIONS + WHAT I BUILT -->
-  <section class="section">
-
-    <div class="two-column">
-
-      <div>
-
-        <h2>Business Questions</h2>
-
-        <ul class="question-list">
-
-          <li>Which products generate the most sales and profit?</li>
-
-          <li>Which products are causing the largest losses?</li>
-
-          <li>Which region generates the highest sales and profit?</li>
-
-          <li>Which customer segments contribute the most revenue?</li>
-
-          <li>Where are sales strong but profit margins weak?</li>
-
-        </ul>
-
-      </div>
-
-
-      <div>
-
-        <h2>What I Built</h2>
-
-        <ul class="feature-list">
-
-          <li>Cleaned and transformed data using Power Query</li>
-
-          <li>Created a structured data model</li>
-
-          <li>Developed DAX measures for KPIs</li>
-
-          <li>Designed interactive Power BI dashboards</li>
-
-          <li>Created product and regional analysis</li>
-
-          <li>Developed visual analysis for loss-making products</li>
-
-        </ul>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- DASHBOARD DESIGN -->
-  <section class="section">
-
-    <h2>Dashboard Pages</h2>
-
-    <ul class="feature-list">
-
-      <li>
-        <strong>Executive Overview:</strong>
-        KPI cards, sales and profit trends, category analysis,
-        and customer segment performance.
-      </li>
-
-      <li>
-        <strong>Product Performance:</strong>
-        Top products by sales and profit, loss-making products,
-        and sales versus profit analysis.
-      </li>
-
-      <li>
-        <strong>Customer & Regional Analysis:</strong>
-        Regional sales and profit, top customers,
-        and geographic performance.
-      </li>
-
-    </ul>
-
-  </section>
-
-
-  <!-- SCREENSHOTS -->
-  <section class="section">
-
-    <h2>Dashboard Screenshots</h2>
-
-    <div class="screenshots">
-
-      <div class="screenshot-card">
-
-        <img
-          src="assets/executive-overview.png"
-          alt="Executive Overview Power BI Dashboard"
-        >
-
-        <div class="caption">
-          <strong>Executive Overview</strong><br>
-          High-level KPIs, sales trends, profit trends, and business performance.
-        </div>
-
-      </div>
-
-
-      <div class="screenshot-card">
-
-        <img
-          src="assets/product-performance.png"
-          alt="Product Performance Power BI Dashboard"
-        >
-
-        <div class="caption">
-          <strong>Product Performance</strong><br>
-          Product profitability, top performers, and loss drivers.
-        </div>
-
-      </div>
-
-
-      <div class="screenshot-card">
-
-        <img
-          src="assets/customer-regional.png"
-          alt="Customer and Regional Analysis Power BI Dashboard"
-        >
-
-        <div class="caption">
-          <strong>Customer & Regional Analysis</strong><br>
-          Customer contribution, regional performance, and geographic insights.
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- TECHNICAL IMPLEMENTATION -->
-  <section class="section">
-
-    <h2>Technical Implementation</h2>
-
-    <div class="technical-box">
-
-      <ul>
-
-        <li>
-          <strong>Power Query:</strong>
-          Data cleaning, transformation, and preparation.
-        </li>
-
-        <li>
-          <strong>Data Modeling:</strong>
-          Structured relationships between business entities.
-        </li>
-
-        <li>
-          <strong>DAX:</strong>
-          Created calculated measures for sales, profit,
-          orders, and profitability analysis.
-        </li>
-
-        <li>
-          <strong>Power BI:</strong>
-          Interactive visualizations, slicers, KPI cards,
-          charts, and dashboard navigation.
-        </li>
-
-      </ul>
-
-    </div>
-
-  </section>
-
-
-  <!-- INSIGHTS -->
-  <section class="section">
-
-    <h2>Key Insights</h2>
-
-    <ul class="insight-list">
-
-      <li>
-        <strong>Furniture</strong> generates strong sales but has
-        relatively weak profit margins at 2.5%.
-      </li>
-
-      <li>
-        The <strong>Zebra GK420t printer</strong> is one of the
-        largest loss drivers in the dataset.
-      </li>
-
-      <li>
-        The <strong>West region</strong> leads in both sales and profit.
-      </li>
-
-      <li>
-        Top customers such as <strong>Sean Miller</strong> and
-        <strong>Tamara Chand</strong> contribute significantly to revenue.
-      </li>
-
-    </ul>
-
-  </section>
-
-
-  <!-- VIDEO -->
-  <section class="section">
-
-    <h2>Dashboard Walkthrough</h2>
-
-    <p>
-      Watch a short walkthrough demonstrating the dashboard navigation,
-      interactive filters, KPIs, and analysis across all three pages.
-    </p>
-
-    <div class="video-wrapper">
-
-      <video
-        controls
-        poster="assets/executive-overview.png"
-      >
-
-        <source
-          src="assets/dashboard-demo.mp4"
-          type="video/mp4"
-        >
-
-        Your browser does not support the video tag.
-
-      </video>
-
-    </div>
-
-    <div class="caption">
-      Interactive walkthrough of the three Power BI dashboard pages
-    </div>
-
-  </section>
-
-
-  <!-- OUTCOME -->
-  <section class="section">
-
-    <h2>Outcome</h2>
-
-    <div class="outcome-box">
-
-      <p>
-        Delivered a three-page interactive Power BI dashboard that
-        transforms raw sales data into actionable business insights.
-        The dashboard enables users to quickly identify growth
-        opportunities, evaluate profitability, analyze product performance,
-        and compare regional results.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- BACK TO PORTFOLIO -->
-  <div style="text-align:center;">
-
-    <a href="index.html" class="back-button">
-      ← Back to Portfolio
-    </a>
-
   </div>
 
-</div>
+  <section class="mint">
+    <div class="wrap">
+      <h2>Dashboard preview</h2>
+      <figure class="shot">
+        <img src="assets/executive-overview.png" alt="Superstore Power BI Executive Overview Dashboard">
+        <figcaption>Executive Overview: sales, profit, orders, and performance trends</figcaption>
+      </figure>
+    </div>
+  </section>
 
+  <section class="cream body">
+    <div class="wrap">
+      <h2>Project overview</h2>
+      <p>The objective of this project was to transform Superstore sales data into an interactive business intelligence dashboard. The dashboard provides executives and business users with a clear view of sales, profitability, customer performance, product performance, and regional trends.</p>
+      <h2 style="margin-top:2rem">Key metrics</h2>
+      <div class="metrics">
+        <div class="metric"><strong>$2.30M</strong>Total Sales</div>
+        <div class="metric"><strong>$286.40K</strong>Total Profit</div>
+        <div class="metric"><strong>5K</strong>Total Orders</div>
+        <div class="metric"><strong>12.5%</strong>Profit Margin</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mint">
+    <div class="wrap two-col">
+      <div>
+        <h2>Business questions</h2>
+        <ul>
+          <li>Which products generate the most sales and profit?</li>
+          <li>Which products are causing the largest losses?</li>
+          <li>Which region generates the highest sales and profit?</li>
+          <li>Which customer segments contribute the most revenue?</li>
+          <li>Where are sales strong but profit margins weak?</li>
+        </ul>
+      </div>
+      <div>
+        <h2>What I built</h2>
+        <ul>
+          <li>Cleaned and transformed data using Power Query</li>
+          <li>Created a structured data model</li>
+          <li>Developed DAX measures for KPIs</li>
+          <li>Designed interactive Power BI dashboards</li>
+          <li>Created product and regional analysis</li>
+          <li>Developed visual analysis for loss-making products</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap">
+      <h2>Dashboard pages</h2>
+      <article class="proj"><div><h3>Executive Overview</h3></div><div><p>KPI cards, sales and profit trends, category analysis, and customer segment performance.</p></div></article>
+      <article class="proj"><div><h3>Product Performance</h3></div><div><p>Top products by sales and profit, loss-making products, and sales versus profit analysis.</p></div></article>
+      <article class="proj"><div><h3>Customer &amp; Regional Analysis</h3></div><div><p>Regional sales and profit, top customers, and geographic performance.</p></div></article>
+    </div>
+  </section>
+
+  <section class="mint">
+    <div class="wrap">
+      <h2>Dashboard screenshots</h2>
+      <div class="shots">
+        <figure class="shot"><img src="assets/executive-overview.png" alt="Executive Overview Power BI Dashboard"><figcaption><strong>Executive Overview.</strong> High-level KPIs, sales trends, profit trends, and business performance.</figcaption></figure>
+        <figure class="shot"><img src="assets/product-performance.png" alt="Product Performance Power BI Dashboard"><figcaption><strong>Product Performance.</strong> Product profitability, top performers, and loss drivers.</figcaption></figure>
+        <figure class="shot"><img src="assets/customer-regional.png" alt="Customer and Regional Analysis Power BI Dashboard"><figcaption><strong>Customer &amp; Regional Analysis.</strong> Customer contribution, regional performance, and geographic insights.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap">
+      <h2>Technical implementation</h2>
+      <div class="techbox">
+        <ul>
+          <li><strong>Power Query:</strong> Data cleaning, transformation, and preparation.</li>
+          <li><strong>Data Modeling:</strong> Structured relationships between business entities.</li>
+          <li><strong>DAX:</strong> Created calculated measures for sales, profit, orders, and profitability analysis.</li>
+          <li><strong>Power BI:</strong> Interactive visualizations, slicers, KPI cards, charts, and dashboard navigation.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="mint">
+    <div class="wrap">
+      <h2>Key insights</h2>
+      <ul class="insights">
+        <li><strong>Furniture</strong> generates strong sales but has relatively weak profit margins at 2.5%.</li>
+        <li>The <strong>Zebra GK420t printer</strong> is one of the largest loss drivers in the dataset.</li>
+        <li>The <strong>West region</strong> leads in both sales and profit.</li>
+        <li>Top customers such as <strong>Sean Miller</strong> and <strong>Tamara Chand</strong> contribute significantly to revenue.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="cream body">
+    <div class="wrap">
+      <h2>Dashboard walkthrough</h2>
+      <p>Watch a short walkthrough demonstrating the dashboard navigation, interactive filters, KPIs, and analysis across all three pages.</p>
+      <div class="video">
+        <video controls poster="assets/executive-overview.png">
+          <source src="assets/dashboard-demo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <section class="mint">
+    <div class="wrap">
+      <h2>Outcome</h2>
+      <div class="outcome"><p>Delivered a three-page interactive Power BI dashboard that transforms raw sales data into actionable business insights. The dashboard enables users to quickly identify growth opportunities, evaluate profitability, analyze product performance, and compare regional results.</p></div>
+    </div>
+  </section>
+
+  <section class="dark contact">
+    <div class="wrap">
+      <h2>Want to see more?</h2>
+      <p>I'm happy to walk through how the model and measures work.</p>
+      <div class="btns">
+        <a class="btn primary" href="index.html#contact">Get in touch</a>
+        <a class="btn ghost" href="index.html#powerbi">Back to projects</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">&copy; 2026 Ginno Citra</div></footer>
 </body>
 </html>
