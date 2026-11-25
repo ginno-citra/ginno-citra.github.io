@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ticket Approval Workflow | Power Automate | Ginno Citra</title>
+<meta name="description" content="Power Automate flow that turns a Microsoft Forms request into a numbered ticket, requests approval when the category needs it, and emails the requester the outcome.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e8f7ec; --ink:#12302f; --muted:#1d5a35; --line:#8fd1a5;
+  --teal:#15803d; --teal-dark:#14532d; --sand:#f08a24; --rust:#b53b0a; --white:#fff;
+  --mint:#e4f8ea; --cream:#d3f7e8; --deep:#14532d; --soft:#c9f2d6;
+  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.125rem/1.6 var(--body)}
+a{color:var(--teal-dark)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+header.top{background:linear-gradient(90deg,#14532d,#15803d);border-bottom:1px solid #1f6b3c}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-top:1rem;padding-bottom:1rem}
+.brand{font:700 1.125rem var(--head);text-decoration:none;color:var(--white)}
+nav a{margin-left:1.25rem;text-decoration:none;color:var(--soft);font-weight:600}
+nav a:hover{color:var(--white);text-decoration:underline}
+header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline-color:var(--sand)}
+.herobg{background:linear-gradient(135deg,#0e3d21 0%,#14532d 45%,#22a05b 100%);color:var(--white)}
+.hero{padding:4.5rem 1.5rem 4.5rem}
+.hero h1{font:700 clamp(2.4rem,6vw,4.25rem)/1.05 var(--head);letter-spacing:-.02em;margin:0 0 1.25rem;max-width:16ch}
+.hero p{max-width:40rem;color:var(--soft);margin:0 0 2rem}
+.btns{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-block;padding:.7rem 1.25rem;border-radius:6px;font-weight:600;text-decoration:none;border:2px solid var(--teal)}
+.btn.primary{background:var(--teal);color:var(--white)}
+.btn.primary:hover{background:var(--teal-dark);border-color:var(--teal-dark)}
+.btn.ghost{color:var(--teal-dark)}
+.btn.ghost:hover{background:#c3e8cf}
+.dark .btn.primary,.herobg .btn.primary{background:var(--sand);border-color:var(--sand);color:#2b1400}
+.dark .btn.primary:hover,.herobg .btn.primary:hover{background:#f7a24f;border-color:#f7a24f}
+.dark .btn.ghost,.herobg .btn.ghost{color:var(--white);border-color:var(--soft)}
+.dark .btn.ghost:hover,.herobg .btn.ghost:hover{background:#1d6a3c}
+section{padding:3.5rem 0}
+section.mint{background:linear-gradient(180deg,#bdeccb 0%,#e4f8ea 100%)}
+section.cream{background:linear-gradient(180deg,#a6ebd2 0%,#d3f7e8 100%);--line:#7fcfb2}
+section.dark{background:linear-gradient(135deg,#14532d 0%,#22a05b 100%);color:var(--white)}
+h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:38rem;margin:0 0 2rem}
+.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.5rem 2.5rem;padding:1.75rem 1rem;margin:0 -1rem;border-top:1px solid var(--line);border-radius:10px;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
+.proj:hover{transform:translateY(-4px);background:rgba(255,255,255,.8);box-shadow:inset 6px 0 0 var(--teal),0 10px 24px rgba(20,83,45,.16);border-top-color:transparent}
+.proj:hover h3{color:var(--teal)}
+.proj:hover + .proj{border-top-color:transparent}
+@media (prefers-reduced-motion:reduce){.proj{transition:none}.proj:hover{transform:none}}
+.proj:first-of-type{border-top:0}
+.proj h3{font:700 1.25rem/1.25 var(--head);margin:0}
+.proj .tools{color:var(--muted);font-size:.9375rem;margin:.4rem 0 0}
+.proj p{margin:0 0 .6rem;max-width:36rem}
+.status{font-size:.9375rem;font-weight:600;color:var(--muted)}
+.status.live{color:var(--teal-dark)}
+.status.wip{color:var(--rust)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem 2.5rem;margin:0;padding:0;list-style:none}
+.skills li{border-left:4px solid var(--teal);padding:.75rem 1rem .75rem 1rem;border-radius:0 8px 8px 0;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-left-width .2s ease,padding-left .2s ease;cursor:default}
+.skills li:nth-child(even){border-left-color:var(--sand)}
+.skills li:hover{transform:translateY(-4px);background:rgba(255,255,255,.85);box-shadow:0 8px 20px rgba(20,83,45,.18);border-left-width:10px;padding-left:calc(1rem - 6px)}
+.skills li:hover strong{color:var(--teal)}
+@media (prefers-reduced-motion:reduce){.skills li{transition:none}.skills li:hover{transform:none}}
+.skills strong{display:block;font-family:var(--head)}
+.skills span{color:var(--muted);font-size:1rem}
+.about p{max-width:40rem;margin:0 0 1rem}
+.contact p{max-width:36rem;color:var(--soft)}
+footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);padding:1.5rem 0 2.5rem;font-size:.9375rem}
+@media (max-width:42rem){
+  .proj{grid-template-columns:1fr}
+  nav a{margin:0 1rem 0 0}
+  .hero{padding-top:3rem}
+}
+
+.pagehero{padding:3rem 1.5rem 3.5rem}
+.pagehero h1{font:700 clamp(2rem,5vw,3.25rem)/1.1 var(--head);letter-spacing:-.02em;margin:1rem 0 1rem;max-width:20ch}
+.pagehero p{max-width:42rem;color:var(--soft);margin:0 0 1rem}
+.back{color:var(--soft);text-decoration:none;font-weight:600}
+.back:hover{color:var(--white);text-decoration:underline}
+.meta{display:flex;flex-wrap:wrap;gap:.5rem 2rem;margin-top:1.5rem;font-size:1rem;color:var(--soft)}
+.meta strong{color:var(--white)}
+.body p{max-width:42rem;margin:0 0 1rem}
+.shot{position:relative;margin:1.5rem 0 0;border:2px dashed var(--teal);border-radius:10px;min-height:14rem;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;background:rgba(255,255,255,.5)}
+.shot img{display:block;max-width:100%;height:auto;border-radius:8px}
+.shot.ok{border:0;min-height:0;padding:0;background:none;box-shadow:0 8px 24px rgba(20,83,45,.2)}
+.shot .ph{color:var(--muted);font-size:1rem}
+.shot.ok .ph{display:none}
+.cap{font-size:.9375rem;color:var(--muted);margin:.6rem 0 0}
+
+.cmp{width:100%;border-collapse:collapse;margin-top:1.5rem;background:rgba(255,255,255,.85);border-radius:10px;overflow:hidden}
+.cmp th,.cmp td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--line)}
+.cmp th{background:var(--deep);color:var(--white);font-family:var(--head)}
+.cmp td:first-child{font-weight:600}
+.cmp tr:last-child td{border-bottom:0}
+.tablewrap{overflow-x:auto;max-width:100%}
+.steps{margin:0 0 1rem;padding-left:1.25rem;max-width:42rem}
+.steps li{margin-bottom:.5rem}
+.shot{max-width:52rem}.formshots{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}@media (max-width:48rem){.formshots{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Ginno Citra</a>
+    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a></nav>
+  </div>
+</header>
+
+<main>
+  <div class="herobg">
+    <div class="wrap pagehero">
+      <a class="back" href="index.html#automation">&larr; Back to projects</a>
+      <h1>Ticket approval workflow</h1>
+      <p>A Power Automate flow that turns a Microsoft Forms request into a numbered ticket, asks for approval when the category needs it, and tells the requester the outcome.</p>
+      <div class="meta">
+        <span><strong>Tools:</strong> Power Automate, Approvals, Microsoft Forms, Excel, Outlook</span><br>
+        <span><strong>Screenshots:</strong> Sample data only</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="mint body">
+    <div class="wrap">
+      <h2>The problem</h2>
+      <p>Some categories of IT request need an approver's go-ahead before work can start. This flow records every request, asks for approval only when the category requires it, and tells the requester the result, so nobody has to follow up by hand.</p>
+      <figure class="shot"><span class="ph">Screenshot: the full flow<br>Add the image as assets/ticket-approval-flow.png</span><a href="assets/ticket-approval-flow.png" target="_blank" rel="noopener"><img src="assets/ticket-approval-flow.png" alt="Power Automate flow with a Forms trigger, Excel steps, an approval condition and approved and declined branches" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
+      <p class="cap">The whole flow, from the form submission to the approved and declined outcomes. Click the image to see it full size.</p>
+    </div>
+  </section>
+
+  <section class="cream body">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>A request comes in.</strong> The requester fills in a Microsoft Forms request. For certain categories, the form branches to an extra question that asks for the approver's email address.</li>
+        <li><strong>The flow gets a ticket number.</strong> It reads the form answers, reads the existing ticket list in Excel, counts the tickets, and creates the next number in the sequence.</li>
+        <li><strong>The ticket is logged.</strong> The request is added as a new row in the Excel table.</li>
+        <li><strong>The category decides the path.</strong> If the category doesn't need approval, the requester gets a notification email with the ticket number.</li>
+        <li><strong>Otherwise, approval is requested.</strong> The flow starts an approval for the approver and waits for the decision.</li>
+        <li><strong>The outcome is recorded and sent.</strong> If it is approved, the row is marked approved and the requester is notified. If it is declined, the row is marked declined and the requester gets a decline email that points questions to the approver.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="mint body">
+    <div class="wrap">
+      <h2>The form and the ticket log</h2>
+      <p>Requesters fill in a Microsoft Forms request. When the category needs approval, an extra question asks for the approver's email address. Every ticket is then logged in an Excel table.</p>
+      <div class="formshots">
+        <div>
+      <figure class="shot"><span class="ph">Screenshot: form, no approval needed<br>Add the image as assets/ticket-approval-form.png</span><img src="assets/ticket-approval-form.png" alt="Ticket request form with a category that needs no approval" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">No approval needed: the form goes straight from the category to the request description.</p>
+        </div>
+        <div>
+      <figure class="shot"><span class="ph">Screenshot: form, approval needed<br>Add the image as assets/ticket-approval-form-approval.png</span><img src="assets/ticket-approval-form-approval.png" alt="Ticket request form with an extra approver email question" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Approval needed: an extra question asks for the approver's email address.</p>
+        </div>
+      </div>
+      <figure class="shot"><span class="ph">Screenshot: the Excel ticket log<br>Add the image as assets/ticket-approval-excel.png</span><img src="assets/ticket-approval-excel.png" alt="Excel ticket log showing ticket numbers, categories, approvers and statuses" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">The ticket log with sample data: each row gets a ticket number and a status of Pending, Approved or Declined.</p>
+    </div>
+  </section>
+
+  <section class="cream body">
+    <div class="wrap">
+      <h2>Notification emails</h2>
+      <p>Each outcome has its own email, filled in with the project, category and request description from the form.</p>
+      <figure class="shot"><span class="ph">Screenshot: no approval needed email<br>Add the image as assets/ticket-approval-email-no-approval.png</span><img src="assets/ticket-approval-email-no-approval.png" alt="Confirmation email for a request that needs no approval" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">No approval needed: a confirmation that the request was received.</p>
+      <figure class="shot"><span class="ph">Screenshot: approved email<br>Add the image as assets/ticket-approval-email-approved.png</span><img src="assets/ticket-approval-email-approved.png" alt="Email telling the requester the request was approved" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Approved: the requester is told the request was approved and work will start.</p>
+      <figure class="shot"><span class="ph">Screenshot: declined email<br>Add the image as assets/ticket-approval-email-declined.png</span><img src="assets/ticket-approval-email-declined.png" alt="Email telling the requester the request was not approved" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Declined: the requester is told the request was not approved and who to follow up with.</p>
+    </div>
+  </section>
+
+  <section class="mint body">
+    <div class="wrap">
+      <h2>Tested and running</h2>
+      <p>I tested every path: no approval needed, approved and declined.</p>
+      <figure class="shot"><span class="ph">Screenshot: run history<br>Add the image as assets/ticket-approval-run-history.png</span><img src="assets/ticket-approval-run-history.png" alt="Power Automate run history showing successful runs" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Run history showing successful runs.</p>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap">
+      <h2>Design decisions</h2>
+      <p class="lede">Each decision below answers a real question about how requests should be handled.</p>
+      <article class="proj"><div><h3>Approval only when the category needs it</h3></div><div><p>Requests that don't need approval go straight through, and only the categories that do are sent to an approver.</p></div></article>
+      <article class="proj"><div><h3>Ask for the approver in the form</h3></div><div><p>The form branches by category and asks for the approver's email address only when approval is needed, so requesters aren't asked for details that don't apply to them.</p></div></article>
+      <article class="proj"><div><h3>Ticket numbers from the ticket list</h3></div><div><p>Each ticket gets the next number in sequence, based on the tickets already logged in Excel, so every request has its own reference.</p></div></article>
+      <article class="proj"><div><h3>Every outcome is recorded and communicated</h3></div><div><p>Approved and declined requests both update the Excel row and send an email, so the sheet matches what happened and the requester is never left waiting. The IT team isn't the approver, so the decline email sends questions about the decision to the approver.</p></div></article>
+    </div>
+  </section>
+
+  <section class="dark contact">
+    <div class="wrap">
+      <h2>Want to see more?</h2>
+      <p>I'm happy to walk through how the flow is built.</p>
+      <div class="btns">
+        <a class="btn primary" href="index.html#contact">Get in touch</a>
+        <a class="btn ghost" href="index.html#automation">Back to projects</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">&copy; 2026 Ginno Citra</div></footer>
+</body>
+</html>
