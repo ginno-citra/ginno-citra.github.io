@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Superstore Sales & Profit Analysis | Power BI</title>
-<meta name="description" content="Three-page Power BI dashboard on Superstore sample data that shows where sales are not turning into profit, by product, category and region.">
+<title>Ginno Citra | Power BI Developer | Business Intelligence & Automation</title>
+<meta name="description" content="Ginno Citra is a Power BI Developer focused on business intelligence, interactive dashboards, data modeling, and business process automation.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,11 +30,24 @@ header.top .wrap{display:flex;justify-content:space-between;align-items:center;f
 nav a{margin-left:1.25rem;text-decoration:none;color:var(--soft);font-weight:600}
 nav a:hover{color:var(--white);text-decoration:underline}
 header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline-color:var(--sand)}
-.herobg{background:linear-gradient(135deg,#0e3d21 0%,#14532d 45%,#22a05b 100%);color:var(--white)}
+@keyframes drift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,-30px) scale(1.2)}}
+.herobg{position:relative;overflow:hidden;background:linear-gradient(135deg,#0e3d21,#14532d,#187a44,#14532d,#0e3d21);background-size:300% 300%;animation:drift 18s ease-in-out infinite;color:var(--white)}
+.herobg::before,.herobg::after{content:"";position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none}
+.herobg::before{width:22rem;height:22rem;background:#22a05b;opacity:.35;top:-6rem;right:-4rem;animation:float1 14s ease-in-out infinite}
+.herobg::after{width:18rem;height:18rem;background:#f08a24;opacity:.15;bottom:-7rem;left:30%;animation:float2 17s ease-in-out infinite}
+.herobg .hero{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){.herobg,.herobg::before,.herobg::after,section.dark{animation:none}}
+.hero{padding:4.5rem 1.5rem 4.5rem}
+.hero h1{font:700 clamp(2.4rem,6vw,4.25rem)/1.05 var(--head);letter-spacing:-.02em;margin:0 0 1.25rem;max-width:20ch}
+.hero p{max-width:40rem;color:var(--soft);margin:0 0 2rem}
 .btns{display:flex;flex-wrap:wrap;gap:.75rem}
 .btn{display:inline-block;padding:.7rem 1.25rem;border-radius:6px;font-weight:600;text-decoration:none;border:2px solid var(--teal)}
 .btn.primary{background:var(--teal);color:var(--white)}
+.btn.primary:hover{background:var(--teal-dark);border-color:var(--teal-dark)}
 .btn.ghost{color:var(--teal-dark)}
+.btn.ghost:hover{background:#c3e8cf}
 .dark .btn.primary,.herobg .btn.primary{background:var(--sand);border-color:var(--sand);color:#2b1400}
 .dark .btn.primary:hover,.herobg .btn.primary:hover{background:#f7a24f;border-color:#f7a24f}
 .dark .btn.ghost,.herobg .btn.ghost{color:var(--white);border-color:var(--soft)}
@@ -42,7 +55,7 @@ header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline
 section{padding:3.5rem 0}
 section.mint{background:linear-gradient(180deg,#bdeccb 0%,#e4f8ea 100%)}
 section.cream{background:linear-gradient(180deg,#a6ebd2 0%,#d3f7e8 100%);--line:#7fcfb2}
-section.dark{background:linear-gradient(135deg,#14532d 0%,#22a05b 100%);color:var(--white)}
+section.dark{background:linear-gradient(135deg,#14532d,#187a44,#14532d);background-size:300% 300%;animation:drift 20s ease-in-out infinite;color:var(--white)}
 h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 .lede{color:var(--muted);max-width:38rem;margin:0 0 2rem}
 .proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.5rem 2.5rem;padding:1.75rem 1rem;margin:0 -1rem;border-top:1px solid var(--line);border-radius:10px;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
@@ -52,116 +65,198 @@ h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 @media (prefers-reduced-motion:reduce){.proj{transition:none}.proj:hover{transform:none}}
 .proj:first-of-type{border-top:0}
 .proj h3{font:700 1.25rem/1.25 var(--head);margin:0}
+.proj .tools{color:var(--muted);font-size:.9375rem;margin:.4rem 0 0}
 .proj p{margin:0 0 .6rem;max-width:36rem}
+.thumb{display:block;margin:1rem 0 0;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--white);box-shadow:0 2px 8px rgba(20,83,45,.12)}
+.thumb img{display:block;width:100%;height:auto;max-height:20rem;object-fit:contain}
+.proj:hover .thumb{border-color:var(--teal)}
+.status{font-size:.9375rem;font-weight:600;color:var(--muted)}
+.status.live{color:var(--teal-dark)}
+.status.wip{color:var(--rust)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem 2.5rem;margin:0;padding:0;list-style:none}
+.skills li{border-left:4px solid var(--teal);padding:.75rem 1rem .75rem 1rem;border-radius:0 8px 8px 0;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-left-width .2s ease,padding-left .2s ease;cursor:default}
+.skills li:nth-child(even){border-left-color:var(--sand)}
+.skills li:hover{transform:translateY(-4px);background:rgba(255,255,255,.85);box-shadow:0 8px 20px rgba(20,83,45,.18);border-left-width:10px;padding-left:calc(1rem - 6px)}
+.skills li:hover strong{color:var(--teal)}
+@media (prefers-reduced-motion:reduce){.skills li{transition:none}.skills li:hover{transform:none}}
+.skills strong{display:block;font-family:var(--head)}
+.skills span{color:var(--muted);font-size:1rem}
+.about p{max-width:40rem;margin:0 0 1rem}
 .contact p{max-width:36rem;color:var(--soft)}
 footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);padding:1.5rem 0 2.5rem;font-size:.9375rem}
 @media (max-width:42rem){
   .proj{grid-template-columns:1fr}
+  .thumb{max-width:26rem}
   nav a{margin:0 1rem 0 0}
+  .hero{padding-top:3rem}
 }
-
-.pagehero{padding:3rem 1.5rem 3.5rem}
-.pagehero h1{font:700 clamp(2rem,5vw,3.25rem)/1.1 var(--head);letter-spacing:-.02em;margin:1rem 0 1rem;max-width:22ch}
-.pagehero p{max-width:42rem;color:var(--soft);margin:0 0 1.25rem}
-.back{color:var(--soft);text-decoration:none;font-weight:600}
-.back:hover{color:var(--white);text-decoration:underline}
-.tags{display:flex;flex-wrap:wrap;gap:.5rem}
-.tag{border:1px solid var(--soft);color:var(--white);padding:.25rem .85rem;border-radius:999px;font-size:.9375rem;font-weight:600}
-.meta{margin-top:1.25rem;font-size:1rem;color:var(--soft)}
-.meta strong{color:var(--white)}
-.body p{max-width:42rem;margin:0 0 1rem}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem}
-.metric{background:rgba(255,255,255,.85);border-radius:10px;padding:1.25rem .75rem;text-align:center;border-top:4px solid var(--teal);color:var(--muted);font-weight:600}
-.metric strong{display:block;font:700 1.9rem var(--head);color:var(--teal-dark);margin-bottom:.15rem}
-@media (max-width:48rem){.metrics{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:28rem){.metrics{grid-template-columns:1fr}}
-.shot{position:relative;margin:1.5rem 0 0;border:2px dashed var(--teal);border-radius:10px;min-height:14rem;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;background:rgba(255,255,255,.5)}
-.shot img{display:block;max-width:100%;height:auto;border-radius:8px}
-.shot.ok{border:0;min-height:0;padding:0;background:none;box-shadow:0 8px 24px rgba(20,83,45,.2)}
-.shot .ph{color:var(--muted);font-size:1rem}
-.shot.ok .ph{display:none}
-.cap{font-size:.9375rem;color:var(--muted);margin:.6rem 0 0}
-.next{margin:1rem 0 0;padding-left:1.25rem;max-width:42rem}
-.next li{margin-bottom:.6rem}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="index.html">Ginno Citra</a>
-    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a></nav>
+    <a class="brand" href="#top">Ginno Citra</a>
+    <nav aria-label="Main">
+      <a href="#powerbi">Power BI</a>
+      <a href="#automation">Automation</a>
+      <a href="#skills">Skills</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-resume" href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a>
+    </nav>
   </div>
 </header>
 
-<main>
+<main id="top">
   <div class="herobg">
-    <div class="wrap pagehero">
-      <a class="back" href="index.html#powerbi">&larr; Back to projects</a>
-      <h1>Superstore Sales &amp; Profit Analysis</h1>
-      <p>A three-page Power BI report built on the public Superstore sample data to show where sales are not turning into profit, by product, category and region.</p>
-      <div class="tags">
-        <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Power Query</span><span class="tag">Data Modeling</span><span class="tag">Excel</span>
+    <div class="wrap hero">
+      <h1>Power BI Developer | Business Intelligence &amp; Automation</h1>
+      <p><strong>From raw data to clear decisions.</strong> I build interactive Power BI dashboards, develop data models, and automate business workflows to improve reporting, visibility, and operational efficiency.</p>
+      <div class="btns">
+        <a class="btn primary" href="#powerbi">Explore my Power BI projects</a>
+        <a class="btn ghost" href="#contact">Get in touch</a>
       </div>
-      <p class="meta"><strong>Data:</strong> Superstore sample dataset (public practice data, not company data)</p>
     </div>
   </div>
 
-  <section class="mint body">
+  <section id="powerbi" class="mint">
     <div class="wrap">
-      <h2>Key metrics</h2>
-      <p>The report opens with four headline numbers, so a reader sees the overall picture before looking at any breakdown.</p>
-      <div class="metrics">
-        <div class="metric"><strong>$2.30M</strong>Total Sales</div>
-        <div class="metric"><strong>$286.40K</strong>Total Profit</div>
-        <div class="metric"><strong>5K</strong>Total Orders</div>
-        <div class="metric"><strong>12.5%</strong>Profit Margin</div>
-      </div>
+      <h2>Power BI projects</h2>
+      <p class="lede">Dashboards built on ledger, log and sales data, with DAX, Power Query and drillthrough.</p>
+
+      <article class="proj">
+        <div>
+          <h3>Customer aging dashboard</h3>
+          <p class="tools">Power BI · DAX · Power Query</p>
+          <a class="thumb" href="aging-dashboard.html" tabindex="-1" aria-hidden="true"><img src="assets/aging-summary.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
+        </div>
+        <div>
+          <p>Shows which customers owe what, and for how long, from a customer ledger. Aging buckets are built with SWITCH in DAX and follow the billing month, advance payments are kept out of past-due totals, and a drillthrough page opens the invoice-level detail. Billers, the accounting supervisor and managers, and operations use it for their monthly report.</p>
+          <p class="status live"><a href="aging-dashboard.html">Read the case study</a></p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>Email delivery monitoring</h3>
+          <p class="tools">Power BI · DAX · Dynamic RLS</p>
+          <a class="thumb" href="email-delivery-monitoring.html" tabindex="-1" aria-hidden="true"><img src="assets/email-dashboard.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
+        </div>
+        <div>
+          <p>Tracks delivered and failed billing and receipt emails by project. Dynamic row-level security means each manager sees only their own projects.</p>
+          <p class="status live"><a href="email-delivery-monitoring.html">Read the case study</a></p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>Title monitoring</h3>
+          <p class="tools">Power BI · DAX</p>
+          <a class="thumb" href="title-monitoring.html" tabindex="-1" aria-hidden="true"><img src="assets/title-monitoring-dashboard.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
+        </div>
+        <div>
+          <p>Tracks where each title is, which ones are released or overdue, and whether the property system is up to date.</p>
+          <p class="status live"><a href="title-monitoring.html">Read the case study</a></p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>Superstore sales and profit</h3>
+          <p class="tools">Power BI · DAX · Power Query · Excel</p>
+          <a class="thumb" href="superstore-dashboard.html" tabindex="-1" aria-hidden="true"><img src="assets/executive-overview.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
+        </div>
+        <div>
+          <p>A three-page report on the Superstore sample data: an executive overview, product performance, and customers by region.</p>
+          <p class="status live"><a href="superstore-dashboard.html">Read the case study</a></p>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="cream">
+  <section id="automation" class="cream">
     <div class="wrap">
-      <h2>What the dashboard shows</h2>
-      <p class="lede">Each question below is one the report was built to answer, with what it found.</p>
-      <article class="proj"><div><h3>Where are sales strong but margins weak?</h3></div><div><p><strong>Furniture.</strong> It generates strong sales, but its profit margin is only 2.5%, against 12.5% for the business overall.</p></div></article>
-      <article class="proj"><div><h3>Which products cause the largest losses?</h3></div><div><p>The <strong>Zebra GK420t printer</strong> is one of the largest loss drivers in the dataset.</p></div></article>
-      <article class="proj"><div><h3>Which region performs best?</h3></div><div><p>The <strong>West</strong> leads in both sales and profit.</p></div></article>
-      <article class="proj"><div><h3>Who are the top customers?</h3></div><div><p><strong>Sean Miller</strong> and <strong>Tamara Chand</strong> contribute significantly to revenue.</p></div></article>
+      <h2>Automation projects</h2>
+      <p class="lede">Workflows I built to remove manual follow-up. The first two run at my current job.</p>
+
+      <article class="proj">
+        <div>
+          <h3>VPN password expiry reminders</h3>
+          <p class="tools">Power Automate · Excel · Microsoft 365</p>
+          <a class="thumb" href="vpn-password-expiry.html" tabindex="-1" aria-hidden="true"><img src="assets/vpn-expiry-flow.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
+        </div>
+        <div>
+          <p>Checks the VPN user list every day, warns users when their password is about to expire, and notifies them again once it has. It covers around 190 employees, and the IS Team updates the user list weekly.</p>
+          <p class="status live"><a href="vpn-password-expiry.html">Read the case study</a></p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>Ticket approval workflow</h3>
+          <p class="tools">Power Automate · Microsoft Forms · Excel · Outlook</p>
+          <a class="thumb" href="ticket-approval-workflow.html" tabindex="-1" aria-hidden="true"><img src="assets/ticket-approval-flow.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
+        </div>
+        <div>
+          <p>A form creates a numbered ticket, requests approval when the category needs it, and emails the requester the outcome. It logs around 480 tickets a month.</p>
+          <p class="status live"><a href="ticket-approval-workflow.html">Read the case study</a></p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>AI helpdesk ticket triage</h3>
+          <p class="tools">Make.com · Google Sheets · Gemini</p>
+        </div>
+        <div>
+          <p>A form logs tickets to a sheet, an AI step categorizes and prioritizes each one, and high-priority tickets trigger an urgent alert.</p>
+          <p class="status wip">In progress</p>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="mint body">
+  <section id="skills" class="mint">
     <div class="wrap">
-      <h2>The three report pages</h2>
-
-      <h3 style="margin:1.5rem 0 .25rem;font:700 1.25rem var(--head)">Executive Overview</h3>
-      <p>KPI cards, sales and profit trends, category analysis, and customer segment performance.</p>
-      <figure class="shot"><span class="ph">Executive Overview: sales, profit, orders and performance trends.</span><img src="assets/executive-overview.png" alt="Executive Overview page of the Superstore Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">High-level KPIs, sales trends and profit trends.</p>
-
-      <h3 style="margin:2.5rem 0 .25rem;font:700 1.25rem var(--head)">Product Performance</h3>
-      <p>Top products by sales and profit, loss-making products, and sales versus profit.</p>
-      <figure class="shot"><span class="ph">Product Performance: product profitability, top performers and loss drivers.</span><img src="assets/product-performance.png" alt="Product Performance page of the Superstore Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">Product profitability, top performers and loss drivers.</p>
-
-      <h3 style="margin:2.5rem 0 .25rem;font:700 1.25rem var(--head)">Customer &amp; Regional Analysis</h3>
-      <p>Regional sales and profit, top customers, and geographic performance.</p>
-      <figure class="shot"><span class="ph">Customer &amp; Regional Analysis: customer contribution, regional performance and geographic insights.</span><img src="assets/customer-regional.png" alt="Customer and Regional Analysis page of the Superstore Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">Customer contribution and regional performance.</p>
+      <h2>Skills</h2>
+      <ul class="skills">
+        <li><strong>Power BI</strong><span>DAX, data modeling, drillthrough, row-level security</span></li>
+        <li><strong>Power Query and Excel</strong><span>Cleaning, transforming and reporting data</span></li>
+        <li><strong>SQL</strong><span>Joins, filtering and CASE logic on business data</span></li>
+        <li><strong>Power Automate</strong><span>Approvals, notifications and Forms workflows</span></li>
+        <li><strong>Smartsheet</strong><span>Monitoring, ticketing, dashboards and automated workflows</span></li>
+        <li><strong>Make.com and AI</strong><span>Automations with an AI step (learning, project in progress)</span></li>
+        <li><strong>IT systems support</strong><span>Troubleshooting and administration</span></li>
+      </ul>
     </div>
   </section>
 
-  <section class="dark contact">
+  <section id="about" class="about cream">
     <div class="wrap">
-      <h2>Want to see more?</h2>
-      <p>I'm happy to walk through how the model and measures work.</p>
+      <h2>About</h2>
+      <p>I have hands-on experience in Information Systems, supporting business operations, managing internal systems, 
+        and improving workflows through technology. I also build Power BI dashboards and business automations 
+        that turn data into actionable insights, reduce manual work, and help teams make better decisions.</p>
+      <br>
+      <p>My goal is to create practical technology solutions that make business processes more efficient.</p>
+    </div>
+  </section>
+
+  <section id="contact" class="contact dark">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <p>I'm open to Power BI Developer opportunities and selected business automation projects.</p>
       <div class="btns">
-        <a class="btn primary" href="index.html#contact">Get in touch</a>
-        <a class="btn ghost" href="index.html#powerbi">Back to projects</a>
+        <a class="btn primary" href="mailto:ginnocitra.work@gmail.com">Email me</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/ginno-citra/">LinkedIn</a>
+        <a class="btn ghost" href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Download resume (PDF)</a>
       </div>
     </div>
   </section>
 </main>
-<footer><div class="wrap">&copy; 2026 Ginno Citra</div></footer>
+
+<footer>
+  <div class="wrap">© 2026 Ginno Citra</div>
+</footer>
 </body>
 </html>
