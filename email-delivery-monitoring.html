@@ -30,7 +30,15 @@ header.top .wrap{display:flex;justify-content:space-between;align-items:center;f
 nav a{margin-left:1.25rem;text-decoration:none;color:var(--soft);font-weight:600}
 nav a:hover{color:var(--white);text-decoration:underline}
 header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline-color:var(--sand)}
-.herobg{background:linear-gradient(135deg,#0e3d21 0%,#14532d 45%,#22a05b 100%);color:var(--white)}
+@keyframes drift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,-30px) scale(1.2)}}
+.herobg{position:relative;overflow:hidden;background:linear-gradient(135deg,#0e3d21,#14532d,#187a44,#14532d,#0e3d21);background-size:300% 300%;animation:drift 18s ease-in-out infinite;color:var(--white)}
+.herobg::before,.herobg::after{content:"";position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none}
+.herobg::before{width:22rem;height:22rem;background:#22a05b;opacity:.35;top:-6rem;right:-4rem;animation:float1 14s ease-in-out infinite}
+.herobg::after{width:18rem;height:18rem;background:#f08a24;opacity:.15;bottom:-7rem;left:30%;animation:float2 17s ease-in-out infinite}
+.herobg .pagehero{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){.herobg,.herobg::before,.herobg::after,section.dark{animation:none}}
 .hero{padding:4.5rem 1.5rem 4.5rem}
 .hero h1{font:700 clamp(2.4rem,6vw,4.25rem)/1.05 var(--head);letter-spacing:-.02em;margin:0 0 1.25rem;max-width:16ch}
 .hero p{max-width:40rem;color:var(--soft);margin:0 0 2rem}
@@ -47,7 +55,7 @@ header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline
 section{padding:3.5rem 0}
 section.mint{background:linear-gradient(180deg,#bdeccb 0%,#e4f8ea 100%)}
 section.cream{background:linear-gradient(180deg,#a6ebd2 0%,#d3f7e8 100%);--line:#7fcfb2}
-section.dark{background:linear-gradient(135deg,#14532d 0%,#22a05b 100%);color:var(--white)}
+section.dark{background:linear-gradient(135deg,#14532d,#187a44,#14532d);background-size:300% 300%;animation:drift 20s ease-in-out infinite;color:var(--white)}
 h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 .lede{color:var(--muted);max-width:38rem;margin:0 0 2rem}
 .proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.5rem 2.5rem;padding:1.75rem 1rem;margin:0 -1rem;border-top:1px solid var(--line);border-radius:10px;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
@@ -108,7 +116,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
 <header class="top">
   <div class="wrap">
     <a class="brand" href="index.html">Ginno Citra</a>
-    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a></nav>
+    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a><a href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a></nav>
   </div>
 </header>
 
@@ -128,7 +136,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
   <section class="mint body">
     <div class="wrap">
       <h2>The problem</h2>
-      <p>Billing invoices and official receipts are emailed to residents every month, and some of those emails fail to deliver. The team needs to spot failures quickly and see which projects are affected. Each manager should also see only their own projects, not the whole email log.</p>
+      <p>Billing invoices and official receipts are emailed to residents every month, and some of those emails fail to deliver. The team needs to spot failures quickly and see which projects are affected. Each manager should also see only their own projects, not the whole email log. The report is used by 7 managers across 40 projects.</p>
       <figure class="shot"><span class="ph">Full Dashboard Overview: Shows email delivery performance across all 22 projects, including total emails, delivery status, daily trends, and failed emails by project.</span><img src="assets/email-dashboard.png" alt="Email delivery monitoring dashboard with KPI cards, email log, delivery status chart, daily volume and failed emails by project" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">Full access view: 22 projects, 6,916 emails and a 5% failed rate.</p>
     </div>
