@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,6 +59,9 @@ h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 .proj h3{font:700 1.25rem/1.25 var(--head);margin:0}
 .proj .tools{color:var(--muted);font-size:.9375rem;margin:.4rem 0 0}
 .proj p{margin:0 0 .6rem;max-width:36rem}
+.thumb{display:block;margin:1rem 0 0;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--white);box-shadow:0 2px 8px rgba(20,83,45,.12)}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
+.proj:hover .thumb{border-color:var(--teal)}
 .status{font-size:.9375rem;font-weight:600;color:var(--muted)}
 .status.live{color:var(--teal-dark)}
 .status.wip{color:var(--rust)}
@@ -76,6 +78,7 @@ h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);padding:1.5rem 0 2.5rem;font-size:.9375rem}
 @media (max-width:42rem){
   .proj{grid-template-columns:1fr}
+  .thumb{max-width:26rem}
   nav a{margin:0 1rem 0 0}
   .hero{padding-top:3rem}
 }
@@ -91,6 +94,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
       <a href="#skills">Skills</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
+      <a class="nav-resume" href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a>
     </nav>
   </div>
 </header>
@@ -116,6 +120,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
         <div>
           <h3>Customer aging dashboard</h3>
           <p class="tools">Power BI · DAX · Power Query</p>
+          <a class="thumb" href="aging-dashboard.html" tabindex="-1" aria-hidden="true"><img src="assets/aging-summary.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
         </div>
         <div>
           <p>Shows which customers owe what, and for how long, from a customer ledger. Aging buckets are built with SWITCH in DAX and follow the billing month, advance payments are kept out of past-due totals, and a drillthrough page opens the invoice-level detail.</p>
@@ -127,6 +132,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
         <div>
           <h3>Email delivery monitoring</h3>
           <p class="tools">Power BI · DAX · Dynamic RLS</p>
+          <a class="thumb" href="email-delivery-monitoring.html" tabindex="-1" aria-hidden="true"><img src="assets/email-dashboard.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
         </div>
         <div>
           <p>Tracks delivered and failed billing and receipt emails by project. Dynamic row-level security means each manager sees only their own projects.</p>
@@ -138,6 +144,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
         <div>
           <h3>Title monitoring</h3>
           <p class="tools">Power BI · DAX</p>
+          <a class="thumb" href="title-monitoring.html" tabindex="-1" aria-hidden="true"><img src="assets/title-monitoring-dashboard.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
         </div>
         <div>
           <p>Tracks where each title is, which ones are released or overdue, and whether the property system is up to date.</p>
@@ -149,6 +156,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
         <div>
           <h3>Superstore sales and profit</h3>
           <p class="tools">Power BI · DAX · Power Query · Excel</p>
+          <a class="thumb" href="superstore-dashboard.html" tabindex="-1" aria-hidden="true"><img src="assets/executive-overview.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
         </div>
         <div>
           <p>A three-page report on the Superstore sample data: an executive overview, product performance, and customers by region.</p>
@@ -167,6 +175,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
         <div>
           <h3>VPN password expiry reminders</h3>
           <p class="tools">Power Automate · Excel · Microsoft 365</p>
+          <a class="thumb" href="vpn-password-expiry.html" tabindex="-1" aria-hidden="true"><img src="assets/vpn-expiry-flow.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
         </div>
         <div>
           <p>Checks the VPN user list every day, warns users when their password is about to expire, and notifies them again once it has.</p>
@@ -178,6 +187,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
         <div>
           <h3>Ticket approval workflow</h3>
           <p class="tools">Power Automate · Microsoft Forms · Excel · Outlook</p>
+          <a class="thumb" href="ticket-approval-workflow.html" tabindex="-1" aria-hidden="true"><img src="assets/ticket-approval-flow.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
         </div>
         <div>
           <p>A form creates a numbered ticket, requests approval when the category needs it, and emails the requester the outcome.</p>
@@ -230,8 +240,8 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
       <p>I'm open to Power BI Developer opportunities and selected business automation projects.</p>
       <div class="btns">
         <a class="btn primary" href="mailto:ginnocitra.work@gmail.com">Email me</a>
-        <!-- Replace YOUR-LINKEDIN with your actual LinkedIn profile URL -->
         <a class="btn ghost" href="https://www.linkedin.com/in/ginno-citra/">LinkedIn</a>
+        <a class="btn ghost" href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Download resume (PDF)</a>
       </div>
     </div>
   </section>
