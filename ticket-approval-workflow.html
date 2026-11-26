@@ -78,7 +78,6 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
   nav a{margin:0 1rem 0 0}
   .hero{padding-top:3rem}
 }
-
 .pagehero{padding:3rem 1.5rem 3.5rem}
 .pagehero h1{font:700 clamp(2rem,5vw,3.25rem)/1.1 var(--head);letter-spacing:-.02em;margin:1rem 0 1rem;max-width:20ch}
 .pagehero p{max-width:42rem;color:var(--soft);margin:0 0 1rem}
@@ -93,7 +92,6 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
 .shot .ph{color:var(--muted);font-size:1rem}
 .shot.ok .ph{display:none}
 .cap{font-size:.9375rem;color:var(--muted);margin:.6rem 0 0}
-
 .cmp{width:100%;border-collapse:collapse;margin-top:1.5rem;background:rgba(255,255,255,.85);border-radius:10px;overflow:hidden}
 .cmp th,.cmp td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--line)}
 .cmp th{background:var(--deep);color:var(--white);font-family:var(--head)}
@@ -102,7 +100,8 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
 .tablewrap{overflow-x:auto;max-width:100%}
 .steps{margin:0 0 1rem;padding-left:1.25rem;max-width:42rem}
 .steps li{margin-bottom:.5rem}
-.shot{max-width:52rem}.formshots{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}@media (max-width:48rem){.formshots{grid-template-columns:1fr}}</style>
+.shot{max-width:52rem}.formshots{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}@media (max-width:48rem){.formshots{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <header class="top">
@@ -129,7 +128,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
     <div class="wrap">
       <h2>The problem</h2>
       <p>Some categories of IT request need an approver's go-ahead before work can start. This flow records every request, asks for approval only when the category requires it, and tells the requester the result, so nobody has to follow up by hand.</p>
-      <figure class="shot"><span class="ph">Screenshot: the full flow<br>Add the image as assets/ticket-approval-flow.png</span><a href="assets/ticket-approval-flow.png" target="_blank" rel="noopener"><img src="assets/ticket-approval-flow.png" alt="Power Automate flow with a Forms trigger, Excel steps, an approval condition and approved and declined branches" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
+      <figure class="shot"><span class="ph">Workflow Overview: Shows the Microsoft Forms trigger, ticket logging steps, approval condition, and approved or declined branches.</span><a href="assets/ticket-approval-flow.png" target="_blank" rel="noopener"><img src="assets/ticket-approval-flow.png" alt="Power Automate flow with a Forms trigger, Excel steps, an approval condition and approved and declined branches" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
       <p class="cap">The whole flow, from the form submission to the approved and declined outcomes. Click the image to see it full size.</p>
     </div>
   </section>
@@ -154,15 +153,15 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
       <p>Requesters fill in a Microsoft Forms request. When the category needs approval, an extra question asks for the approver's email address. Every ticket is then logged in an Excel table.</p>
       <div class="formshots">
         <div>
-      <figure class="shot"><span class="ph">Screenshot: form, no approval needed<br>Add the image as assets/ticket-approval-form.png</span><img src="assets/ticket-approval-form.png" alt="Ticket request form with a category that needs no approval" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">No approval needed: the form goes straight from the category to the request description.</p>
+          <figure class="shot"><span class="ph">Request Form — No Approval Required: Shows the standard request fields without asking for an approver.</span><img src="assets/ticket-approval-form.png" alt="Ticket request form with a category that needs no approval" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+          <p class="cap">No approval needed: the form goes straight from the category to the request description.</p>
         </div>
         <div>
-      <figure class="shot"><span class="ph">Screenshot: form, approval needed<br>Add the image as assets/ticket-approval-form-approval.png</span><img src="assets/ticket-approval-form-approval.png" alt="Ticket request form with an extra approver email question" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">Approval needed: an extra question asks for the approver's email address.</p>
+          <figure class="shot"><span class="ph">Request Form — Approval Required: Shows the additional approver email field displayed for categories that require approval.</span><img src="assets/ticket-approval-form-approval.png" alt="Ticket request form with an extra approver email question" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+          <p class="cap">Approval needed: an extra question asks for the approver's email address.</p>
         </div>
       </div>
-      <figure class="shot"><span class="ph">Screenshot: the Excel ticket log<br>Add the image as assets/ticket-approval-excel.png</span><img src="assets/ticket-approval-excel.png" alt="Excel ticket log showing ticket numbers, categories, approvers and statuses" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <figure class="shot"><span class="ph">Ticket Log: Shows sample ticket records with ticket numbers, request categories, approvers, and approval statuses.</span><img src="assets/ticket-approval-excel.png" alt="Excel ticket log showing ticket numbers, categories, approvers and statuses" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">The ticket log with sample data: each row gets a ticket number and a status of Pending, Approved or Declined.</p>
     </div>
   </section>
@@ -171,11 +170,11 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
     <div class="wrap">
       <h2>Notification emails</h2>
       <p>Each outcome has its own email, filled in with the project, category and request description from the form.</p>
-      <figure class="shot"><span class="ph">Screenshot: no approval needed email<br>Add the image as assets/ticket-approval-email-no-approval.png</span><img src="assets/ticket-approval-email-no-approval.png" alt="Confirmation email for a request that needs no approval" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <figure class="shot"><span class="ph">Notification — No Approval Required: Shows the confirmation email sent to the requester with the generated ticket number.</span><img src="assets/ticket-approval-email-no-approval.png" alt="Confirmation email for a request that needs no approval" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">No approval needed: a confirmation that the request was received.</p>
-      <figure class="shot"><span class="ph">Screenshot: approved email<br>Add the image as assets/ticket-approval-email-approved.png</span><img src="assets/ticket-approval-email-approved.png" alt="Email telling the requester the request was approved" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <figure class="shot"><span class="ph">Notification — Approved: Shows the email informing the requester that the approver accepted the request.</span><img src="assets/ticket-approval-email-approved.png" alt="Email telling the requester the request was approved" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">Approved: the requester is told the request was approved and work will start.</p>
-      <figure class="shot"><span class="ph">Screenshot: declined email<br>Add the image as assets/ticket-approval-email-declined.png</span><img src="assets/ticket-approval-email-declined.png" alt="Email telling the requester the request was not approved" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <figure class="shot"><span class="ph">Notification — Declined: Shows the email informing the requester that the request was declined and directing follow-up questions to the approver.</span><img src="assets/ticket-approval-email-declined.png" alt="Email telling the requester the request was not approved" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">Declined: the requester is told the request was not approved and who to follow up with.</p>
     </div>
   </section>
@@ -184,7 +183,7 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
     <div class="wrap">
       <h2>Tested and running</h2>
       <p>I tested every path: no approval needed, approved and declined.</p>
-      <figure class="shot"><span class="ph">Screenshot: run history<br>Add the image as assets/ticket-approval-run-history.png</span><img src="assets/ticket-approval-run-history.png" alt="Power Automate run history showing successful runs" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <figure class="shot"><span class="ph">Flow Run History: Shows successful Power Automate test runs for the no-approval, approved, and declined scenarios.</span><img src="assets/ticket-approval-run-history.png" alt="Power Automate run history showing successful runs" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">Run history showing successful runs.</p>
     </div>
   </section>
