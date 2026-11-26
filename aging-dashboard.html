@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg:#e8f7ec; --ink:#12302f; --muted:#1d5a35; --line:#8fd1a5;
@@ -17,62 +19,80 @@
   --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
   --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
 }
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
 body{margin:0;background:var(--bg);color:var(--ink);font:400 1.125rem/1.6 var(--body)}
 a{color:var(--teal-dark)}
 a:focus-visible,button:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
 .wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+
 header.top{background:linear-gradient(90deg,#14532d,#15803d);border-bottom:1px solid #1f6b3c}
 header.top .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-top:1rem;padding-bottom:1rem}
 .brand{font:700 1.125rem var(--head);text-decoration:none;color:var(--white)}
 nav a{margin-left:1.25rem;text-decoration:none;color:var(--soft);font-weight:600}
 nav a:hover{color:var(--white);text-decoration:underline}
+
 header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline-color:var(--sand)}
+
 .herobg{background:linear-gradient(135deg,#0e3d21 0%,#14532d 45%,#22a05b 100%);color:var(--white)}
 .hero{padding:4.5rem 1.5rem 4.5rem}
 .hero h1{font:700 clamp(2.4rem,6vw,4.25rem)/1.05 var(--head);letter-spacing:-.02em;margin:0 0 1.25rem;max-width:16ch}
 .hero p{max-width:40rem;color:var(--soft);margin:0 0 2rem}
+
 .btns{display:flex;flex-wrap:wrap;gap:.75rem}
 .btn{display:inline-block;padding:.7rem 1.25rem;border-radius:6px;font-weight:600;text-decoration:none;border:2px solid var(--teal)}
 .btn.primary{background:var(--teal);color:var(--white)}
 .btn.primary:hover{background:var(--teal-dark);border-color:var(--teal-dark)}
 .btn.ghost{color:var(--teal-dark)}
 .btn.ghost:hover{background:#c3e8cf}
+
 .dark .btn.primary,.herobg .btn.primary{background:var(--sand);border-color:var(--sand);color:#2b1400}
 .dark .btn.primary:hover,.herobg .btn.primary:hover{background:#f7a24f;border-color:#f7a24f}
 .dark .btn.ghost,.herobg .btn.ghost{color:var(--white);border-color:var(--soft)}
 .dark .btn.ghost:hover,.herobg .btn.ghost:hover{background:#1d6a3c}
+
 section{padding:3.5rem 0}
 section.mint{background:linear-gradient(180deg,#bdeccb 0%,#e4f8ea 100%)}
 section.cream{background:linear-gradient(180deg,#a6ebd2 0%,#d3f7e8 100%);--line:#7fcfb2}
 section.dark{background:linear-gradient(135deg,#14532d 0%,#22a05b 100%);color:var(--white)}
+
 h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 .lede{color:var(--muted);max-width:38rem;margin:0 0 2rem}
+
 .proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.5rem 2.5rem;padding:1.75rem 1rem;margin:0 -1rem;border-top:1px solid var(--line);border-radius:10px;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
 .proj:hover{transform:translateY(-4px);background:rgba(255,255,255,.8);box-shadow:inset 6px 0 0 var(--teal),0 10px 24px rgba(20,83,45,.16);border-top-color:transparent}
 .proj:hover h3{color:var(--teal)}
 .proj:hover + .proj{border-top-color:transparent}
+
 @media (prefers-reduced-motion:reduce){.proj{transition:none}.proj:hover{transform:none}}
+
 .proj:first-of-type{border-top:0}
 .proj h3{font:700 1.25rem/1.25 var(--head);margin:0}
 .proj .tools{color:var(--muted);font-size:.9375rem;margin:.4rem 0 0}
 .proj p{margin:0 0 .6rem;max-width:36rem}
+
 .status{font-size:.9375rem;font-weight:600;color:var(--muted)}
 .status.live{color:var(--teal-dark)}
 .status.wip{color:var(--rust)}
+
 .skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.5rem 2.5rem;margin:0;padding:0;list-style:none}
 .skills li{border-left:4px solid var(--teal);padding:.75rem 1rem .75rem 1rem;border-radius:0 8px 8px 0;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,border-left-width .2s ease,padding-left .2s ease;cursor:default}
 .skills li:nth-child(even){border-left-color:var(--sand)}
 .skills li:hover{transform:translateY(-4px);background:rgba(255,255,255,.85);box-shadow:0 8px 20px rgba(20,83,45,.18);border-left-width:10px;padding-left:calc(1rem - 6px)}
 .skills li:hover strong{color:var(--teal)}
+
 @media (prefers-reduced-motion:reduce){.skills li{transition:none}.skills li:hover{transform:none}}
+
 .skills strong{display:block;font-family:var(--head)}
 .skills span{color:var(--muted);font-size:1rem}
 .about p{max-width:40rem;margin:0 0 1rem}
 .contact p{max-width:36rem;color:var(--soft)}
+
 footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);padding:1.5rem 0 2.5rem;font-size:.9375rem}
+
 @media (max-width:42rem){
   .proj{grid-template-columns:1fr}
   nav a{margin:0 1rem 0 0}
@@ -86,7 +106,9 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
 .back:hover{color:var(--white);text-decoration:underline}
 .meta{display:flex;flex-wrap:wrap;gap:.5rem 2rem;margin-top:1.5rem;font-size:1rem;color:var(--soft)}
 .meta strong{color:var(--white)}
+
 .body p{max-width:42rem;margin:0 0 1rem}
+
 .shot{position:relative;margin:1.5rem 0 0;border:2px dashed var(--teal);border-radius:10px;min-height:14rem;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;background:rgba(255,255,255,.5)}
 .shot img{display:block;max-width:100%;height:auto;border-radius:8px}
 .shot.ok{border:0;min-height:0;padding:0;background:none;box-shadow:0 8px 24px rgba(20,83,45,.2)}
@@ -95,11 +117,16 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
 .cap{font-size:.9375rem;color:var(--muted);margin:.6rem 0 0}
 </style>
 </head>
+
 <body>
 <header class="top">
   <div class="wrap">
     <a class="brand" href="index.html">Ginno Citra</a>
-    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a></nav>
+    <nav aria-label="Main">
+      <a href="index.html#powerbi">Power BI</a>
+      <a href="index.html#automation">Automation</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
@@ -121,37 +148,80 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
     <div class="wrap">
       <h2>The problem</h2>
       <p>Statements of account are sent in advance each month, and the ledger covers several years of charges and payments. Managers need to see who is overdue, and by how much, without searching through thousands of rows.</p>
+
       <h2 style="margin-top:2rem">The data</h2>
       <p>The report is built on customer ledger entries linked to a customer list, a units list, tenant charge types, and a date table. All names and amounts shown are anonymized.</p>
-      <figure class="shot"><span class="ph">Aging Summary dashboard preview<br>Highlights customer balances, overdue amounts, advance payments, and aging analysis.</span><img src="assets/aging-summary.png" alt="Aging Summary page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+
+      <figure class="shot">
+        <span class="ph">Customer Aging Summary<br>Overview of outstanding balances, aging buckets and customer exposure.</span>
+        <img src="assets/aging-summary.png" alt="Aging Summary page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">
+      </figure>
       <p class="cap">Aging Summary: KPI cards for net balance, past due, advance payments and % over 90 days, with past due broken down by customer type, charge type, aging bucket and building, plus the top 10 owners.</p>
     </div>
   </section>
 
   <section class="cream">
     <div class="wrap">
-      <h2>Design decisions</h2>
-      <p class="lede">Each decision below answers a real question about how the numbers should be read.</p>
+      <h2>Data model: a star schema</h2>
+      <p>The report uses a star schema. Customer Ledger Entries is the fact table, and four dimension tables describe it: CustomerList, TenantCharge, UnitList and DateTable. Every relationship is one-to-many and filters in one direction, from the dimension to the ledger, so slicers and visuals behave predictably.</p>
+      <p>The aging bucket and its sort order are calculated columns in the ledger table.</p>
 
-      <article class="proj"><div><h3>Aging by billing month</h3></div><div><p>Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0&ndash;30, March in 31&ndash;60, and so on, which matches how statements are sent. I built the buckets with SWITCH in a DAX calculated column, plus a second column to control the sort order.</p></div></article>
-
-      <article class="proj"><div><h3>Charges due on the report date</h3></div><div><p>Anything due on the report date, April 30, 2025, goes in the 1&ndash;30 days bucket instead of Current, so charges due that day are treated as owed, not hidden.</p></div></article>
-
-      <article class="proj"><div><h3>Posting Date instead of Due Date</h3></div><div><p>Some Due Date values are blank in the ledger, so I used Posting Date for the aging and detail tables. This keeps every row in a bucket.</p></div></article>
-
-      <article class="proj"><div><h3>Advance payments kept separate</h3></div><div><p>Payments made ahead of time are labeled as advance payments and shown as their own KPI, so they don't reduce the past-due totals. Net Balance then combines the two: past due plus advance payments.</p></div></article>
-
-      <article class="proj"><div><h3>Top 10 shows owners only</h3></div><div><p>The developer owns many unsold units and carries one very large balance, so the Top 10 table excludes it and says so in a note below the table. The developer's balance still appears in the Past Due by Customer Type chart.</p></div></article>
-
-      <article class="proj"><div><h3>A target for % over 90 days</h3></div><div><p>The % over 90 days card divides Over 90 Days by Total Past Due and compares it with a 50% target. At 84.7% it is currently flagged Critical, so the problem stands out right away.</p></div></article>
+      <figure class="shot">
+        <span class="ph">Power BI Data Model<br>Star schema showing the fact table and its four dimension tables.</span>
+        <a href="assets/aging-data-model.png" target="_blank" rel="noopener">
+          <img src="assets/aging-data-model.png" alt="Power BI model view showing the Customer Ledger Entries fact table connected to the CustomerList, TenantCharge, UnitList and DateTable dimension tables" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()">
+        </a>
+      </figure>
+      <p class="cap">Model view: Customer Ledger Entries (the fact table) connected to four dimension tables. Click the image to see it full size.</p>
     </div>
   </section>
 
-  <section class="mint body">
+  <section class="mint">
+    <div class="wrap">
+      <h2>Design decisions</h2>
+      <p class="lede">Each decision below answers a real question about how the numbers should be read.</p>
+
+      <article class="proj">
+        <div><h3>Aging by billing month</h3></div>
+        <div><p>Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0&ndash;30, March in 31&ndash;60, and so on, which matches how statements are sent. I built the buckets with SWITCH in a DAX calculated column, plus a second column to control the sort order.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>Charges due on the report date</h3></div>
+        <div><p>Anything due on the report date, April 30, 2025, goes in the 1&ndash;30 days bucket instead of Current, so charges due that day are treated as owed, not hidden.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>Posting Date instead of Due Date</h3></div>
+        <div><p>Some Due Date values are blank in the ledger, so I used Posting Date for the aging and detail tables. This keeps every row in a bucket.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>Advance payments kept separate</h3></div>
+        <div><p>Payments made ahead of time are labeled as advance payments and shown as their own KPI, so they don't reduce the past-due totals. Net Balance then combines the two: past due plus advance payments.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>Top 10 shows owners only</h3></div>
+        <div><p>The developer owns many unsold units and carries one very large balance, so the Top 10 table excludes it and says so in a note below the table. The developer's balance still appears in the Past Due by Customer Type chart.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>A target for % over 90 days</h3></div>
+        <div><p>The % over 90 days card divides Over 90 Days by Total Past Due and compares it with a 50% target. At 84.7% it is currently flagged Critical, so the problem stands out right away.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="cream body">
     <div class="wrap">
       <h2>Drillthrough to invoice detail</h2>
       <p>On the summary page, right-click a customer to open the Aging Detail page filtered to that customer, showing the individual ledger entries behind the numbers.</p>
-      <figure class="shot"><span class="ph">Aging Detail dashboard preview<br>Shows the selected customer’s ledger entries grouped by aging bucket.</span><img src="assets/aging-detail.png" alt="Aging Detail page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+
+      <figure class="shot">
+        <span class="ph">Customer Aging Detail<br>Invoice-level breakdown of outstanding balances by customer and aging bucket.</span>
+        <img src="assets/aging-detail.png" alt="Aging Detail page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">
+      </figure>
       <p class="cap">Aging Detail: ledger entries for the selected customer, grouped by aging bucket.</p>
     </div>
   </section>
@@ -167,6 +237,10 @@ footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);paddi
     </div>
   </section>
 </main>
-<footer><div class="wrap">&copy; 2026 Ginno Citra</div></footer>
+
+<footer>
+  <div class="wrap">&copy; 2026 Ginno Citra</div>
+</footer>
+
 </body>
 </html>
