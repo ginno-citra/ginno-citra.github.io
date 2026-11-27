@@ -48,6 +48,7 @@
       <article class="proj"><div><h3>KPI cards</h3></div><div><p>Total, delivered and failed emails, plus the delivery rate and failed rate. The Failed Emails card is outlined in red so problems stand out first.</p></div></article>
       <article class="proj"><div><h3>Email log</h3></div><div><p>A searchable table of each email with its date, recipient, subject and delivery status.</p></div></article>
       <article class="proj"><div><h3>Trends and breakdowns</h3></div><div><p>A delivery status donut, a daily chart of email volume with the failed rate as a line, and failed emails by project.</p></div></article>
+      <article class="proj"><div><h3>Data source</h3></div><div><p>The email log comes from the parent company's IT shared service. We request the data every month after the billing run and download it as an Excel file, and the report reads from that file, so the numbers update when the new monthly file is loaded.</p></div></article>
       <article class="proj"><div><h3>Slicers</h3></div><div><p>Filter by project, month, status and document type to narrow down to a specific batch of emails.</p></div></article>
     </div>
   </section>
@@ -63,10 +64,11 @@ LOWER ( [UserEmail] ) = LOWER ( USERPRINCIPALNAME () )</code></pre>
       <p>Both sides are lowercased, so a difference in capitalization between the stored email and the sign-in account can't lock a manager out.</p>
       <figure class="shot"><span class="ph">Manage security roles: the Project Access role with its filter on the UserProjectAccess table.</span><a href="assets/email-rls-role.png" target="_blank" rel="noopener"><img src="assets/email-rls-role.png" alt="Power BI Manage security roles dialog showing the Project Access role with a filter on the UserProjectAccess table" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
       <p class="cap">The Project Access role in Manage roles. Click the image to see it full size.</p>
-      <p>The UserProjectAccess table filters the Project Dimension table through the Project column, and the dimension filters the Email Logs table. The Current User and Projects Accessible cards use two simple measures:</p>
+      <p>The UserProjectAccess table filters the Project Dimension table through the Project column, and the dimension filters the Email Logs table.</p>
       <p>The relationship between UserProjectAccess and Project Dimension is set to filter in both directions, with the security filter applied both ways. That is what lets a filter on the access table reach the dimension, and from there the Email Logs table.</p>
       <figure class="shot"><span class="ph">Model view: UserProjectAccess and Email Logs both connected to Project Dimension, plus a Calendar table.</span><a href="assets/email-rls-model.png" target="_blank" rel="noopener"><img src="assets/email-rls-model.png" alt="Power BI model view showing UserProjectAccess and Email Logs connected to Project Dimension, and Calendar connected to Email Logs" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
       <p class="cap">Model view: the security table filters Project Dimension, which filters Email Logs. Click the image to see it full size.</p>
+      <p>The Current User and Projects Accessible cards use two simple measures:</p>
 <pre class="code" tabindex="0"><code>Current User = USERPRINCIPALNAME ()
 
 Projects Accessible =
@@ -86,6 +88,9 @@ DISTINCTCOUNT ( 'Project Dimension'[Project] )</code></pre>
       </div>
       <figure class="shot"><span class="ph">Manager Access View: Demonstrates dynamic row-level security, showing only the 3 projects and 149 emails assigned to the signed-in manager.</span><img src="assets/email-rls-view.png" alt="Dashboard viewed as a manager with access to three projects" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">Viewing as a manager account: only 3 projects and 149 emails are visible.</p>
+      <p>The slicers follow the same rule. The Project dropdown lists only the manager's own projects, so there is nothing else to pick.</p>
+      <figure class="shot"><span class="ph">Project slicer open while viewing as a manager: only three projects are listed.</span><img src="assets/email-rls-slicer.png" alt="Project slicer dropdown listing only Horizon Towers, Skyline Gardens and Urban Crest Residences while viewing as a manager" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Project slicer in View as mode: only the manager's 3 projects are listed.</p>
     </div>
   </section>
 
