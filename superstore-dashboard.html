@@ -9,89 +9,99 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#e8f7ec; --ink:#12302f; --muted:#1d5a35; --line:#8fd1a5;
-  --teal:#15803d; --teal-dark:#14532d; --sand:#f08a24; --rust:#b53b0a; --white:#fff;
-  --mint:#e4f8ea; --cream:#d3f7e8; --deep:#14532d; --soft:#c9f2d6;
-  --head:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
-  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.125rem/1.6 var(--body)}
-a{color:var(--teal-dark)}
-a:focus-visible,button:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
-.wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
-header.top{background:linear-gradient(90deg,#14532d,#15803d);border-bottom:1px solid #1f6b3c}
-header.top .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-top:1rem;padding-bottom:1rem}
-.brand{font:700 1.125rem var(--head);text-decoration:none;color:var(--white)}
-nav a{margin-left:1.25rem;text-decoration:none;color:var(--soft);font-weight:600}
-nav a:hover{color:var(--white);text-decoration:underline}
-header.top a:focus-visible,.dark a:focus-visible,.herobg a:focus-visible{outline-color:var(--sand)}
-@keyframes drift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
-@keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-50px,-30px) scale(1.2)}}
-.herobg{position:relative;overflow:hidden;background:linear-gradient(135deg,#0e3d21,#14532d,#187a44,#14532d,#0e3d21);background-size:300% 300%;animation:drift 18s ease-in-out infinite;color:var(--white)}
-.herobg::before,.herobg::after{content:"";position:absolute;border-radius:50%;filter:blur(40px);pointer-events:none}
-.herobg::before{width:22rem;height:22rem;background:#22a05b;opacity:.35;top:-6rem;right:-4rem;animation:float1 14s ease-in-out infinite}
-.herobg::after{width:18rem;height:18rem;background:#f08a24;opacity:.15;bottom:-7rem;left:30%;animation:float2 17s ease-in-out infinite}
-.herobg .pagehero{position:relative;z-index:1}
-@media (prefers-reduced-motion:reduce){.herobg,.herobg::before,.herobg::after,section.dark{animation:none}}
-.btns{display:flex;flex-wrap:wrap;gap:.75rem}
-.btn{display:inline-block;padding:.7rem 1.25rem;border-radius:6px;font-weight:600;text-decoration:none;border:2px solid var(--teal)}
-.btn.primary{background:var(--teal);color:var(--white)}
-.btn.ghost{color:var(--teal-dark)}
-.dark .btn.primary,.herobg .btn.primary{background:var(--sand);border-color:var(--sand);color:#2b1400}
-.dark .btn.primary:hover,.herobg .btn.primary:hover{background:#f7a24f;border-color:#f7a24f}
-.dark .btn.ghost,.herobg .btn.ghost{color:var(--white);border-color:var(--soft)}
-.dark .btn.ghost:hover,.herobg .btn.ghost:hover{background:#1d6a3c}
-section{padding:3.5rem 0}
-section.mint{background:linear-gradient(180deg,#bdeccb 0%,#e4f8ea 100%)}
-section.cream{background:linear-gradient(180deg,#a6ebd2 0%,#d3f7e8 100%);--line:#7fcfb2}
-section.dark{background:linear-gradient(135deg,#14532d,#187a44,#14532d);background-size:300% 300%;animation:drift 20s ease-in-out infinite;color:var(--white)}
-h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
-.lede{color:var(--muted);max-width:38rem;margin:0 0 2rem}
-.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.5rem 2.5rem;padding:1.75rem 1rem;margin:0 -1rem;border-top:1px solid var(--line);border-radius:10px;transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
-.proj:hover{transform:translateY(-4px);background:rgba(255,255,255,.8);box-shadow:inset 6px 0 0 var(--teal),0 10px 24px rgba(20,83,45,.16);border-top-color:transparent}
-.proj:hover h3{color:var(--teal)}
-.proj:hover + .proj{border-top-color:transparent}
-@media (prefers-reduced-motion:reduce){.proj{transition:none}.proj:hover{transform:none}}
-.proj:first-of-type{border-top:0}
-.proj h3{font:700 1.25rem/1.25 var(--head);margin:0}
-.proj p{margin:0 0 .6rem;max-width:36rem}
-.contact p{max-width:36rem;color:var(--soft)}
-footer{background:linear-gradient(90deg,#0e3d21,#14532d);color:var(--soft);padding:1.5rem 0 2.5rem;font-size:.9375rem}
-@media (max-width:42rem){
-  .proj{grid-template-columns:1fr}
-  nav a{margin:0 1rem 0 0}
-}
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Ginno Citra</a>
+    <nav aria-label="Main"><a href="index.html#powerbi">Power BI</a><a href="index.html#automation">Automation</a><a href="index.html#contact">Contact</a><a href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a></nav>
+  </div>
+</header>
 
-.pagehero{padding:3rem 1.5rem 3.5rem}
-.pagehero h1{font:700 clamp(2rem,5vw,3.25rem)/1.1 var(--head);letter-spacing:-.02em;margin:1rem 0 1rem;max-width:22ch}
-.pagehero p{max-width:42rem;color:var(--soft);margin:0 0 1.25rem}
-.back{color:var(--soft);text-decoration:none;font-weight:600}
-.back:hover{color:var(--white);text-decoration:underline}
-.tags{display:flex;flex-wrap:wrap;gap:.5rem}
-.tag{border:1px solid var(--soft);color:var(--white);padding:.25rem .85rem;border-radius:999px;font-size:.9375rem;font-weight:600}
-.meta{margin-top:1.25rem;font-size:1rem;color:var(--soft)}
-.meta strong{color:var(--white)}
-.body p{max-width:42rem;margin:0 0 1rem}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem}
-.metric{background:rgba(255,255,255,.85);border-radius:10px;padding:1.25rem .75rem;text-align:center;border-top:4px solid var(--teal);color:var(--muted);font-weight:600}
-.metric strong{display:block;font:700 1.9rem var(--head);color:var(--teal-dark);margin-bottom:.15rem}
-@media (max-width:48rem){.metrics{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:28rem){.metrics{grid-template-columns:1fr}}
-.shot{position:relative;margin:1.5rem 0 0;border:2px dashed var(--teal);border-radius:10px;min-height:14rem;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;background:rgba(255,255,255,.5)}
-.shot img{display:block;max-width:100%;height:auto;border-radius:8px}
-.shot.ok{border:0;min-height:0;padding:0;background:none;box-shadow:0 8px 24px rgba(20,83,45,.2)}
-.shot .ph{color:var(--muted);font-size:1rem}
-.shot.ok .ph{display:none}
-.cap{font-size:.9375rem;color:var(--muted);margin:.6rem 0 0}
-.next{margin:1rem 0 0;padding-left:1.25rem;max-width:42rem}
-.next li{margin-bottom:.6rem}
-</style>
+<main>
+  <div class="herobg">
+    <div class="wrap pagehero">
+      <a class="back" href="index.html#powerbi">&larr; Back to projects</a>
+      <h1>Superstore Sales &amp; Profit Analysis</h1>
+      <p>A three-page Power BI report built on the public Superstore sample data to show where sales are not turning into profit, by product, category and region.</p>
+      <div class="tags">
+        <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Power Query</span><span class="tag">Data Modeling</span><span class="tag">Excel</span>
+      </div>
+      <p class="meta"><strong>Data:</strong> Superstore sample dataset (public practice data, not company data)</p>
+    </div>
+  </div>
+
+  <section class="mint body">
+    <div class="wrap">
+      <h2>Key metrics</h2>
+      <p>The report opens with four headline numbers, so a reader sees the overall picture before looking at any breakdown.</p>
+      <div class="metrics">
+        <div class="metric"><strong>$2.30M</strong>Total Sales</div>
+        <div class="metric"><strong>$286.40K</strong>Total Profit</div>
+        <div class="metric"><strong>5K</strong>Total Orders</div>
+        <div class="metric"><strong>12.5%</strong>Profit Margin</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap">
+      <h2>What the dashboard shows</h2>
+      <p class="lede">Each question below is one the report was built to answer, with what it found.</p>
+      <article class="proj"><div><h3>Where are sales strong but margins weak?</h3></div><div><p><strong>Furniture.</strong> It generates strong sales, but its profit margin is only 2.5%, against 12.5% for the business overall.</p></div></article>
+      <article class="proj"><div><h3>Which products cause the largest losses?</h3></div><div><p>The <strong>Zebra GK420t printer</strong> is one of the largest loss drivers in the dataset.</p></div></article>
+      <article class="proj"><div><h3>Which region performs best?</h3></div><div><p>The <strong>West</strong> leads in both sales and profit.</p></div></article>
+      <article class="proj"><div><h3>Who are the top customers?</h3></div><div><p><strong>Sean Miller</strong> and <strong>Tamara Chand</strong> contribute significantly to revenue.</p></div></article>
+    </div>
+  </section>
+
+  <section class="mint body">
+    <div class="wrap">
+      <h2>The three report pages</h2>
+
+      <h3 style="margin:1.5rem 0 .25rem;font:700 1.25rem var(--head)">Executive Overview</h3>
+      <p>KPI cards, sales and profit trends, category analysis, and customer segment performance.</p>
+      <figure class="shot"><span class="ph">Executive Overview: sales, profit, orders and performance trends.</span><img src="assets/executive-overview.png" alt="Executive Overview page of the Superstore Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">High-level KPIs, sales trends and profit trends.</p>
+
+      <h3 style="margin:2.5rem 0 .25rem;font:700 1.25rem var(--head)">Product Performance</h3>
+      <p>Top products by sales and profit, loss-making products, and sales versus profit.</p>
+      <figure class="shot"><span class="ph">Product Performance: product profitability, top performers and loss drivers.</span><img src="assets/product-performance.png" alt="Product Performance page of the Superstore Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Product profitability, top performers and loss drivers.</p>
+
+      <h3 style="margin:2.5rem 0 .25rem;font:700 1.25rem var(--head)">Customer &amp; Regional Analysis</h3>
+      <p>Regional sales and profit, top customers, and geographic performance.</p>
+      <figure class="shot"><span class="ph">Customer &amp; Regional Analysis: customer contribution, regional performance and geographic insights.</span><img src="assets/customer-regional.png" alt="Customer and Regional Analysis page of the Superstore Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Customer contribution and regional performance.</p>
+    </div>
+  </section>
+
+  <section class="dark contact">
+    <div class="wrap">
+      <h2>Want to see more?</h2>
+      <p>I'm happy to walk through how the model and measures work.</p>
+      <div class="btns">
+        <a class="btn primary" href="index.html#contact">Get in touch</a>
+        <a class="btn ghost" href="index.html#powerbi">Back to projects</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">&copy; 2026 Ginno Citra</div></footer>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Superstore Sales & Profit Analysis | Power BI</title>
+<meta name="description" content="Three-page Power BI dashboard on Superstore sample data that shows where sales are not turning into profit, by product, category and region.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="top">
