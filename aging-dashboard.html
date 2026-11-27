@@ -1,157 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Customer Aging Dashboard | Ginno Citra</title>
-<meta name="description" content="Power BI customer aging dashboard with DAX aging buckets, a top past-due chart and invoice-level drillthrough.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+Ginno Citra
+Power BI Automation Contact Resume
+← Back to projects
+Customer aging dashboard
+A Power BI report that shows which customers owe money and how long it has been outstanding. A summary page gives managers the big picture, and a detail page drills down to individual ledger entries.
 
-<link rel="stylesheet" href="styles.css">
-</head>
+Tools: Power BI, DAX, Power Query Report date: April 30, 2025 Pages: Aging Summary, Aging Detail
+The problem
+Statements of account are sent in advance each month, and the ledger covers several years of charges and payments. Managers need to see who is overdue, and by how much, without searching through thousands of rows. At work, the monthly aging report is an Excel file. This is a Power BI rebuild with anonymized data, made to show the same numbers in a form that is easier to view.
 
-<body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="index.html">Ginno Citra</a>
-    <nav aria-label="Main">
-      <a href="index.html#powerbi">Power BI</a>
-      <a href="index.html#automation">Automation</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a>
-    </nav>
-  </div>
-</header>
+What it adds: a summary page that shows past due, advance payments and the share over 90 days at a glance, and a drillthrough from any customer to the ledger entries behind the number.
 
-<main>
-  <div class="herobg">
-    <div class="wrap pagehero">
-      <a class="back" href="index.html#powerbi">&larr; Back to projects</a>
-      <h1>Customer aging dashboard</h1>
-      <p>A Power BI report that shows which customers owe money and how long it has been outstanding. A summary page gives managers the big picture, and a detail page drills down to individual ledger entries.</p>
-      <div class="meta">
-        <span><strong>Tools:</strong> Power BI, DAX, Power Query</span>
-        <span><strong>Report date:</strong> April 30, 2025</span>
-        <span><strong>Pages:</strong> Aging Summary, Aging Detail</span>
-      </div>
-    </div>
-  </div>
+The data
+The report is built on customer ledger entries linked to a customer list, a units list, tenant charge types, and a date table. All names and amounts shown are anonymized.
 
-  <section class="mint body">
-    <div class="wrap">
-      <h2>The problem</h2>
-      <p>Statements of account are sent in advance each month, and the ledger covers several years of charges and payments. Managers need to see who is overdue, and by how much, without searching through thousands of rows. Billers, the accounting supervisor and managers, and operations use it for their monthly report.</p>
+Customer Aging Summary
+Overview of outstanding balances, aging buckets and customer exposure.
+Aging Summary: KPI cards for net balance, past due, advance payments and % over 90 days, with past due broken down by customer type, charge type, aging bucket and building, plus the top 10 owners.
 
-      <h2 style="margin-top:2rem">The data</h2>
-      <p>The report is built on customer ledger entries linked to a customer list, a units list, tenant charge types, and a date table. All names and amounts shown are anonymized.</p>
+Data model: a star schema
+The report uses a star schema. Customer Ledger Entries is the fact table, and four dimension tables describe it: CustomerList, TenantCharge, UnitList and DateTable. Every relationship is one-to-many and filters in one direction, from the dimension to the ledger, so slicers and visuals behave predictably.
 
-      <figure class="shot">
-        <span class="ph">Customer Aging Summary<br>Overview of outstanding balances, aging buckets and customer exposure.</span>
-        <img src="assets/aging-summary.png" alt="Aging Summary page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">
-      </figure>
-      <p class="cap">Aging Summary: KPI cards for net balance, past due, advance payments and % over 90 days, with past due broken down by customer type, charge type, aging bucket and building, plus the top 10 owners.</p>
-    </div>
-  </section>
+Months Back, the aging bucket and its sort order are calculated columns in the ledger table.
 
-  <section class="cream">
-    <div class="wrap">
-      <h2>Data model: a star schema</h2>
-      <p>The report uses a star schema. Customer Ledger Entries is the fact table, and four dimension tables describe it: CustomerList, TenantCharge, UnitList and DateTable. Every relationship is one-to-many and filters in one direction, from the dimension to the ledger, so slicers and visuals behave predictably.</p>
-      <p>The aging bucket and its sort order are calculated columns in the ledger table.</p>
+Power BI Data Model
+Star schema showing the fact table and its four dimension tables.
+Model view: Customer Ledger Entries (the fact table) connected to four dimension tables. Click the image to see it full size.
 
-      <figure class="shot">
-        <span class="ph">Power BI Data Model<br>Star schema showing the fact table and its four dimension tables.</span>
-        <a href="assets/aging-data-model.png" target="_blank" rel="noopener">
-          <img src="assets/aging-data-model.png" alt="Power BI model view showing the Customer Ledger Entries fact table connected to the CustomerList, TenantCharge, UnitList and DateTable dimension tables" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()">
-        </a>
-      </figure>
-      <p class="cap">Model view: Customer Ledger Entries (the fact table) connected to four dimension tables. Click the image to see it full size.</p>
-    </div>
-  </section>
+Design decisions
+Each decision below answers a real question about how the numbers should be read. The formulas are in the next section.
 
-  <section class="mint">
-    <div class="wrap">
-      <h2>Design decisions</h2>
-      <p class="lede">Each decision below answers a real question about how the numbers should be read.</p>
+Aging by billing month
+Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0–30, March in 31–60, and so on, which matches how statements are sent. The Posting Date decides the bucket, and a SWITCH in a DAX calculated column assigns it, plus a second column to control the sort order.
 
-      <article class="proj">
-        <div><h3>Aging by billing month</h3></div>
-        <div><p>Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0&ndash;30, March in 31&ndash;60, and so on, which matches how statements are sent. I built the buckets with SWITCH in a DAX calculated column, plus a second column to control the sort order.</p>
-<p>The conditions are checked from top to bottom and the first match wins, so payments are caught first and labeled as advance payments instead of landing in an aging bucket. Months Back counts the billing months between a charge and the report month: 0 for April 2025 billing, 1 for March, and so on.</p>
-<pre class="code" tabindex="0"><code>Aging Bucket =
+Charges posted on the report date
+A charge posted on the report date, April 30, 2025, has a Months Back of 0, so it falls in the 0–30 days bucket and is treated as owed, not hidden. This is a result of the Posting Date rule, not a separate rule.
+
+Posting Date instead of Due Date
+Some Due Date values are blank in the ledger, so I used Posting Date for the aging and detail tables. Every row has a Posting Date, so every row lands in a bucket, and blank Due Dates can't affect the result.
+
+Advance payments kept separate
+Payments made ahead of time are labeled as advance payments and shown as their own KPI, so they don't reduce the past-due totals. Net Balance then combines the two: past due plus advance payments.
+
+Top 10 shows owners only
+The developer owns many unsold units and carries one very large balance, so the Top 10 table excludes it and says so in a note below the table. The developer's balance still appears in the Past Due by Customer Type chart.
+
+A target for % over 90 days
+The % over 90 days card divides Over 90 Days by Total Past Due and compares it with a 50% target. At 84.7% it is currently flagged Critical, so the problem stands out right away.
+
+The DAX behind it
+Three pieces of DAX drive the aging numbers: a Months Back column, the Aging Bucket column, and the Over 90 Days measure.
+
+Months Back
+Months Back turns each charge's Posting Date into a whole number of billing months before the report month: 0 for April 2025 billing, 1 for March, and so on. The year difference is multiplied by 12 so that charges from earlier years count correctly, and then the month difference is added. The ledger holds no charges after the report month, so it is never negative.
+
+Months Back =
+( YEAR ( DATE ( 2025, 4, 30 ) ) - YEAR ( 'Customer Ledger Entries'[Posting Date] ) ) * 12
+    + MONTH ( DATE ( 2025, 4, 30 ) ) - MONTH ( 'Customer Ledger Entries'[Posting Date] )
+The report date is written into the formula as April 30, 2025, which keeps this snapshot fixed and matches the anonymized data. A live report would take the date from the latest posting date or the end of the current month instead.
+
+Aging Bucket
+The conditions are checked from top to bottom and the first match wins, so payments are caught first and labeled as advance payments instead of landing in an aging bucket.
+
+Aging Bucket =
 SWITCH (
     TRUE (),
     'Customer Ledger Entries'[Document Type] = "Payment", "Advance Payments",
-    'Customer Ledger Entries'[Months Back] &lt;= 0, "0-30 days",
-    'Customer Ledger Entries'[Months Back] &lt;= 1, "31-60 days",
-    'Customer Ledger Entries'[Months Back] &lt;= 2, "61-90 days",
-    'Customer Ledger Entries'[Months Back] &lt;= 5, "91-180 days",
-    'Customer Ledger Entries'[Months Back] &lt;= 11, "181-365 days",
+    'Customer Ledger Entries'[Months Back] <= 0, "0-30 days",
+    'Customer Ledger Entries'[Months Back] <= 1, "31-60 days",
+    'Customer Ledger Entries'[Months Back] <= 2, "61-90 days",
+    'Customer Ledger Entries'[Months Back] <= 5, "91-180 days",
+    'Customer Ledger Entries'[Months Back] <= 11, "181-365 days",
     "Over 365 days"
-)</code></pre>
-<figure class="shot"><span class="ph">The Aging Bucket calculated column in Power BI Desktop.</span><a href="assets/aging-bucket-formula.png" target="_blank" rel="noopener"><img src="assets/aging-bucket-formula.png" alt="The Aging Bucket formula as shown in the Power BI Desktop formula bar" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
-<p class="cap">The same formula in the Power BI Desktop formula bar. Click the image to see it full size.</p>
-</div>
-      </article>
+)
+The Aging Bucket calculated column in Power BI Desktop.
+The same formula in the Power BI Desktop formula bar. Click the image to see it full size.
 
-      <article class="proj">
-        <div><h3>Charges due on the report date</h3></div>
-        <div><p>Anything due on the report date, April 30, 2025, goes in the 0&ndash;30 days bucket, the first aging bucket, so charges due that day are treated as owed, not hidden.</p></div>
-      </article>
+Over 90 Days
+Over 90 Days is built on Net Balance, which adds up the Remaining Amount of the ledger rows. A Months Back of 3 or more means three or more billing months back, which the report labels over 90 days, and advance payments are left out so they don't offset it:
 
-      <article class="proj">
-        <div><h3>Posting Date instead of Due Date</h3></div>
-        <div><p>Some Due Date values are blank in the ledger, so I used Posting Date for the aging and detail tables. This keeps every row in a bucket.</p></div>
-      </article>
+Net Balance = SUM ( 'Customer Ledger Entries'[Remaining Amount] )
 
-      <article class="proj">
-        <div><h3>Advance payments kept separate</h3></div>
-        <div><p>Payments made ahead of time are labeled as advance payments and shown as their own KPI, so they don't reduce the past-due totals. Net Balance then combines the two: past due plus advance payments.</p></div>
-      </article>
+Over 90 Days =
+CALCULATE (
+    [Net Balance],
+    'Customer Ledger Entries'[Months Back] >= 3,
+    'Customer Ledger Entries'[Aging Bucket] <> "Advance Payments"
+)
+Drillthrough to invoice detail
+On the summary page, right-click a customer to open the Aging Detail page filtered to that customer, showing the individual ledger entries behind the numbers.
 
-      <article class="proj">
-        <div><h3>Top 10 shows owners only</h3></div>
-        <div><p>The developer owns many unsold units and carries one very large balance, so the Top 10 table excludes it and says so in a note below the table. The developer's balance still appears in the Past Due by Customer Type chart.</p></div>
-      </article>
+Customer Aging Detail
+Invoice-level breakdown of outstanding balances by customer and aging bucket.
+Aging Detail: ledger entries for the selected customer, grouped by aging bucket.
 
-      <article class="proj">
-        <div><h3>A target for % over 90 days</h3></div>
-        <div><p>The % over 90 days card divides Over 90 Days by Total Past Due and compares it with a 50% target. At 84.7% it is currently flagged Critical, so the problem stands out right away.</p></div>
-      </article>
-    </div>
-  </section>
+Want to see more?
+I'm happy to walk through how the model and measures work.
 
-  <section class="cream body">
-    <div class="wrap">
-      <h2>Drillthrough to invoice detail</h2>
-      <p>On the summary page, right-click a customer to open the Aging Detail page filtered to that customer, showing the individual ledger entries behind the numbers.</p>
-
-      <figure class="shot">
-        <span class="ph">Customer Aging Detail<br>Invoice-level breakdown of outstanding balances by customer and aging bucket.</span>
-        <img src="assets/aging-detail.png" alt="Aging Detail page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">
-      </figure>
-      <p class="cap">Aging Detail: ledger entries for the selected customer, grouped by aging bucket.</p>
-    </div>
-  </section>
-
-  <section class="dark contact">
-    <div class="wrap">
-      <h2>Want to see more?</h2>
-      <p>I'm happy to walk through how the model and measures work.</p>
-      <div class="btns">
-        <a class="btn primary" href="index.html#contact">Get in touch</a>
-        <a class="btn ghost" href="index.html#powerbi">Back to projects</a>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">&copy; 2026 Ginno Citra</div>
-</footer>
-
-</body>
-</html>
+Get in touch Back to projects
+© 2026 Ginno Citra
