@@ -100,6 +100,9 @@ h2{font:700 1.75rem/1.2 var(--head);margin:0 0 .5rem;letter-spacing:-.01em}
 .shot.ok .ph{display:none}
 .cap{font-size:.9375rem;color:var(--muted);margin:.6rem 0 0}
 .narrow-shots .shot{max-width:52rem}
+.code{margin:.75rem 0 0;padding:1rem 1.25rem;background:#0e2a1a;color:#d9f5e3;border-radius:8px;font:.875rem/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;overflow-x:auto;max-width:100%}
+.code code{font:inherit}
+.code:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
 .formshots{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
 .cmp{width:100%;border-collapse:collapse;margin-top:1.5rem;background:rgba(255,255,255,.85);border-radius:10px;overflow:hidden}
 .cmp th,.cmp td{padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--line)}
