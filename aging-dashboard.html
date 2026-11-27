@@ -79,12 +79,27 @@
 
       <article class="proj">
         <div><h3>Aging by billing month</h3></div>
-        <div><p>Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0&ndash;30, March in 31&ndash;60, and so on, which matches how statements are sent. I built the buckets with SWITCH in a DAX calculated column, plus a second column to control the sort order.</p></div>
+        <div><p>Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0&ndash;30, March in 31&ndash;60, and so on, which matches how statements are sent. I built the buckets with SWITCH in a DAX calculated column, plus a second column to control the sort order.</p>
+<p>The conditions are checked from top to bottom and the first match wins, so payments are caught first and labeled as advance payments instead of landing in an aging bucket. Months Back counts the billing months between a charge and the report month: 0 for April 2025 billing, 1 for March, and so on.</p>
+<pre class="code" tabindex="0"><code>Aging Bucket =
+SWITCH (
+    TRUE (),
+    'Customer Ledger Entries'[Document Type] = "Payment", "Advance Payments",
+    'Customer Ledger Entries'[Months Back] &lt;= 0, "0-30 days",
+    'Customer Ledger Entries'[Months Back] &lt;= 1, "31-60 days",
+    'Customer Ledger Entries'[Months Back] &lt;= 2, "61-90 days",
+    'Customer Ledger Entries'[Months Back] &lt;= 5, "91-180 days",
+    'Customer Ledger Entries'[Months Back] &lt;= 11, "181-365 days",
+    "Over 365 days"
+)</code></pre>
+<figure class="shot"><span class="ph">The Aging Bucket calculated column in Power BI Desktop.</span><a href="assets/aging-bucket-formula.png" target="_blank" rel="noopener"><img src="assets/aging-bucket-formula.png" alt="The Aging Bucket formula as shown in the Power BI Desktop formula bar" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
+<p class="cap">The same formula in the Power BI Desktop formula bar. Click the image to see it full size.</p>
+</div>
       </article>
 
       <article class="proj">
         <div><h3>Charges due on the report date</h3></div>
-        <div><p>Anything due on the report date, April 30, 2025, goes in the 1&ndash;30 days bucket instead of Current, so charges due that day are treated as owed, not hidden.</p></div>
+        <div><p>Anything due on the report date, April 30, 2025, goes in the 0&ndash;30 days bucket, the first aging bucket, so charges due that day are treated as owed, not hidden.</p></div>
       </article>
 
       <article class="proj">
