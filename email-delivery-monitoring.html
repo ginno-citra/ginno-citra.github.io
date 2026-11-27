@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Email Delivery Monitoring with Dynamic RLS | Ginno Citra</title>
+<title>Email Delivery Monitoring | Ginno Citra</title>
 <meta name="description" content="Power BI dashboard that monitors billing and receipt email delivery, with masked recipient addresses and a variant using dynamic row-level security.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
   <div class="herobg">
     <div class="wrap pagehero">
       <a class="back" href="index.html#powerbi">&larr; Back to projects</a>
-      <h1>Email delivery monitoring with dynamic RLS</h1>
+      <h1>Email delivery monitoring</h1>
       <p>A Power BI report that tracks billing invoice and official receipt emails, showing which messages were delivered and which failed. A masked-email version is used at work, and this page also shows a variant with dynamic row-level security, so each manager sees only their own projects.</p>
       <div class="meta">
         <span><strong>Tools:</strong> Power BI, DAX, Row-level security, Excel</span>
@@ -57,7 +57,7 @@ RETURN
     LEFT ( EmailAddress, 1 ) &amp; "***"
         &amp; MID ( EmailAddress, AtPos, LEN ( EmailAddress ) )</code></pre>
       <p>The email log table in the report shows this column instead of the original address. It hides the address in the report only. The original column is still in the model, so the report is meant for people who are already allowed to work with this data.</p>
-      <p><strong>This portfolio version.</strong> Viewing a report with row-level security in the Power BI Service needs a license for each viewer, so the work version doesn't use it. I built this version to show how that security would work: dynamic row-level security, tested in Power BI Desktop with View as.</p>
+      <p><strong>This portfolio version.</strong> Without Premium capacity, viewing a report with row-level security in the Power BI Service needs a license for each viewer, so the work version doesn't use it. I built this version to show how that security would work: dynamic row-level security, tested in Power BI Desktop with View as.</p>
     </div>
   </section>
 
@@ -127,7 +127,7 @@ DISTINCTCOUNT ( 'Project Dimension'[Project] )</code></pre>
       <h2>Design decisions</h2>
       <p class="lede">Each decision below answers a real question about who should see what.</p>
       <article class="proj"><div><h3>Security in the model, not the slicers</h3></div><div><p>Slicers only change what a user looks at. Row-level security changes what they are allowed to see, so restricted users can't reach other projects' emails.</p></div></article>
-      <article class="proj"><div><h3>Masked addresses, details in per-project files</h3></div><div><p>In the work version, the report shows only the first letter of each recipient address (r***@example.com), so the overview can be shared widely. A View Full Email Details button links to SharePoint, where each project has its own Excel file with the exact addresses. The version on this page solves the same &ldquo;who sees what&rdquo; problem in a different way, with row-level security, which needs a license for every viewer.</p></div></article>
+      <article class="proj"><div><h3>Masked addresses, details in per-project files</h3></div><div><p>In the work version, the report shows only the first letter of each recipient address (r***@example.com), so the overview can be shared widely. A View Full Email Details button links to SharePoint, where each project has its own Excel file with the exact addresses. The version on this page solves the same &ldquo;who sees what&rdquo; problem in a different way, with row-level security, which without Premium capacity needs a license for every viewer.</p></div></article>
       <article class="proj"><div><h3>Coverage and refresh time in the header</h3></div><div><p>The header shows the data coverage dates, the number of projects covered and when the report was last refreshed, so readers know how current the numbers are.</p></div></article>
       <article class="proj"><div><h3>Show who is signed in</h3></div><div><p>The Current User and Projects Accessible cards tell each person which account they are viewing as and how many projects that covers, which makes the restriction easy to understand and to check.</p></div></article>
       <article class="proj"><div><h3>Failed rate next to volume</h3></div><div><p>The daily chart plots the failed rate as a line over the email volume, so a spike in failures is visible even on days with fewer emails.</p></div></article>
