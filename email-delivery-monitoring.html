@@ -35,9 +35,10 @@
   <section class="mint body">
     <div class="wrap">
       <h2>The problem</h2>
-      <p>Billing invoices and official receipts are emailed to residents every month, and some of those emails fail to deliver. The team needs to spot failures quickly and see which projects are affected. Each manager should also see only their own projects, not the whole email log. The report is used by 7 managers across 40 projects.</p>
-      <figure class="shot"><span class="ph">Full Dashboard Overview: Shows email delivery performance across all 22 projects, including total emails, delivery status, daily trends, and failed emails by project.</span><img src="assets/email-dashboard.png" alt="Email delivery monitoring dashboard with KPI cards, email log, delivery status chart, daily volume and failed emails by project" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
-      <p class="cap">Full access view: 22 projects, 6,916 emails and a 5% failed rate.</p>
+      <p>Billing invoices and official receipts are emailed to residents every month, and some of those emails fail to deliver. The team needs to spot failures quickly and see which projects are affected. Each manager should also see only their own projects, not the whole email log. In production the report is used by 7 managers across 40 projects. The anonymized sample shown on this page contains 22 of them.</p>
+      <p><strong>The result:</strong> managers now check delivery for their own projects in one report, without asking for the full email log, and failed emails are easy to spot by project.</p>
+      <figure class="shot"><span class="ph">Full Dashboard Overview: Shows email delivery performance across the 22 projects in the anonymized sample, including total emails, delivery status, daily trends, and failed emails by project.</span><img src="assets/email-dashboard.png" alt="Email delivery monitoring dashboard with KPI cards, email log, delivery status chart, daily volume and failed emails by project" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
+      <p class="cap">Full access view of the anonymized sample: 22 projects, 6,916 emails and a 5% failed rate.</p>
     </div>
   </section>
 
@@ -55,6 +56,22 @@
     <div class="wrap">
       <h2>Dynamic row-level security</h2>
       <p>The report uses a row-level security role named Project Access. It filters the data based on who is signed in, so each person sees only the projects assigned to them. The filtering happens in the data model, before anything reaches the visuals, so a user can't remove it by changing a slicer.</p>
+      <p>A small UserProjectAccess table maps each manager's sign-in email to the projects they manage. The Project Access role applies one filter to that table, and the relationship carries it through to the email log:</p>
+<pre class="code" tabindex="0"><code>-- Role: Project Access
+-- Table filter on 'UserProjectAccess'
+LOWER ( [UserEmail] ) = LOWER ( USERPRINCIPALNAME () )</code></pre>
+      <p>Both sides are lowercased, so a difference in capitalization between the stored email and the sign-in account can't lock a manager out.</p>
+      <figure class="shot"><span class="ph">Manage security roles: the Project Access role with its filter on the UserProjectAccess table.</span><a href="assets/email-rls-role.png" target="_blank" rel="noopener"><img src="assets/email-rls-role.png" alt="Power BI Manage security roles dialog showing the Project Access role with a filter on the UserProjectAccess table" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
+      <p class="cap">The Project Access role in Manage roles. Click the image to see it full size.</p>
+      <p>The UserProjectAccess table filters the Project Dimension table through the Project column, and the dimension filters the Email Logs table. The Current User and Projects Accessible cards use two simple measures:</p>
+      <p>The relationship between UserProjectAccess and Project Dimension is set to filter in both directions, with the security filter applied both ways. That is what lets a filter on the access table reach the dimension, and from there the Email Logs table.</p>
+      <figure class="shot"><span class="ph">Model view: UserProjectAccess and Email Logs both connected to Project Dimension, plus a Calendar table.</span><a href="assets/email-rls-model.png" target="_blank" rel="noopener"><img src="assets/email-rls-model.png" alt="Power BI model view showing UserProjectAccess and Email Logs connected to Project Dimension, and Calendar connected to Email Logs" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()"></a></figure>
+      <p class="cap">Model view: the security table filters Project Dimension, which filters Email Logs. Click the image to see it full size.</p>
+<pre class="code" tabindex="0"><code>Current User = USERPRINCIPALNAME ()
+
+Projects Accessible =
+DISTINCTCOUNT ( 'Project Dimension'[Project] )</code></pre>
+      <p>Adding or removing a manager means editing one row in the UserProjectAccess table, with no change to the report or the role. Because the role filters on the signed-in account, one report serves all 7 managers.</p>
       <p>I tested it with View as in Power BI Desktop, signed in as a manager account. The same report shows very different numbers:</p>
       <div class="tablewrap">
       <table class="cmp">
