@@ -26,7 +26,7 @@
       <h1>Email delivery monitoring with dynamic RLS</h1>
       <p>A Power BI report that tracks billing invoice and official receipt emails, showing which messages were delivered and which failed. Each manager signs in and sees only the projects assigned to them.</p>
       <div class="meta">
-        <span><strong>Tools:</strong> Power BI, DAX, Row-level security</span>
+        <span><strong>Tools:</strong> Power BI, DAX, Row-level security, Excel</span>
         <span><strong>Data:</strong> Anonymized email log</span>
       </div>
     </div>
@@ -35,8 +35,8 @@
   <section class="mint body">
     <div class="wrap">
       <h2>The problem</h2>
-      <p>Billing invoices and official receipts are emailed to residents every month, and some of those emails fail to deliver. The team needs to spot failures quickly and see which projects are affected. Each manager should also see only their own projects, not the whole email log. In production the report is used by 7 managers across 40 projects. The anonymized sample shown on this page contains 22 of them.</p>
-      <p><strong>The result:</strong> managers now check delivery for their own projects in one report, without asking for the full email log, and failed emails are easy to spot by project.</p>
+      <p>Billing invoices and official receipts are emailed to residents every month, and some of those emails fail to deliver. The team needs to spot failures quickly and see which projects are affected. Each manager should also see only their own projects, not the whole email log. This is a portfolio version of a report I built for my company, rebuilt with anonymized data. At work it is used by billers, accounting supervisors and accounting managers. Because viewing a report with row-level security in the Power BI Service needs a license for each viewer, the work version takes a different approach: recipient email addresses are masked in the report, and a button links to SharePoint, where there is a separate Excel file for each project with the exact addresses. This version keeps the Power BI design and shows how the security works with row-level security. The sample on this page has 22 projects.</p>
+      <p><strong>What it shows:</strong> one report that gives each manager their own view of email delivery, with the restriction enforced in the data model, and failed emails that are easy to spot by project.</p>
       <figure class="shot"><span class="ph">Full Dashboard Overview: Shows email delivery performance across the 22 projects in the anonymized sample, including total emails, delivery status, daily trends, and failed emails by project.</span><img src="assets/email-dashboard.png" alt="Email delivery monitoring dashboard with KPI cards, email log, delivery status chart, daily volume and failed emails by project" onload="this.parentNode.classList.add('ok')" onerror="this.remove()"></figure>
       <p class="cap">Full access view of the anonymized sample: 22 projects, 6,916 emails and a 5% failed rate.</p>
     </div>
@@ -48,7 +48,7 @@
       <article class="proj"><div><h3>KPI cards</h3></div><div><p>Total, delivered and failed emails, plus the delivery rate and failed rate. The Failed Emails card is outlined in red so problems stand out first.</p></div></article>
       <article class="proj"><div><h3>Email log</h3></div><div><p>A searchable table of each email with its date, recipient, subject and delivery status.</p></div></article>
       <article class="proj"><div><h3>Trends and breakdowns</h3></div><div><p>A delivery status donut, a daily chart of email volume with the failed rate as a line, and failed emails by project.</p></div></article>
-      <article class="proj"><div><h3>Data source</h3></div><div><p>The email log comes from the parent company's IT shared service. We request the data every month after the billing run and download it as an Excel file, and the report reads from that file, so the numbers update when the new monthly file is loaded.</p></div></article>
+      <article class="proj"><div><h3>Data source</h3></div><div><p>The report is built on the kind of monthly email log that my company requests from the parent company's IT shared service after the billing run, downloaded as an Excel file that the report reads from. The data on this page is anonymized.</p></div></article>
       <article class="proj"><div><h3>Slicers</h3></div><div><p>Filter by project, month, status and document type to narrow down to a specific batch of emails.</p></div></article>
     </div>
   </section>
@@ -73,8 +73,8 @@ LOWER ( [UserEmail] ) = LOWER ( USERPRINCIPALNAME () )</code></pre>
 
 Projects Accessible =
 DISTINCTCOUNT ( 'Project Dimension'[Project] )</code></pre>
-      <p>Adding or removing a manager means editing one row in the UserProjectAccess table, with no change to the report or the role. Because the role filters on the signed-in account, one report serves all 7 managers.</p>
-      <p>I tested it with View as in Power BI Desktop, signed in as a manager account. The same report shows very different numbers:</p>
+      <p>Adding or removing a manager means editing one row in the UserProjectAccess table, with no change to the report or the role. Because the role filters on the signed-in account, one report can serve any number of managers.</p>
+      <p>I tested it with View as in Power BI Desktop, using a manager account from the access table. I don't have a Power BI Pro license, so this project has not been published to the Power BI Service. There, managers would be added to the Project Access role in the dataset's security settings. The same report shows very different numbers:</p>
       <div class="tablewrap">
       <table class="cmp">
         <thead><tr><th></th><th>Full access</th><th>Manager view</th></tr></thead>
@@ -108,6 +108,7 @@ DISTINCTCOUNT ( 'Project Dimension'[Project] )</code></pre>
       <h2>Design decisions</h2>
       <p class="lede">Each decision below answers a real question about who should see what.</p>
       <article class="proj"><div><h3>Security in the model, not the slicers</h3></div><div><p>Slicers only change what a user looks at. Row-level security changes what they are allowed to see, so restricted users can't reach other projects' emails.</p></div></article>
+      <article class="proj"><div><h3>Masked addresses, details in per-project files</h3></div><div><p>In the version used at work, the report masks recipient email addresses, so the overview can be shared widely without exposing them. A button links to SharePoint, where each project has its own Excel file, so the exact address can be checked when someone needs it. This version shows the same idea done with row-level security, which needs a license for every viewer.</p></div></article>
       <article class="proj"><div><h3>Show who is signed in</h3></div><div><p>The Current User and Projects Accessible cards tell each person which account they are viewing as and how many projects that covers, which makes the restriction easy to understand and to check.</p></div></article>
       <article class="proj"><div><h3>Failed rate next to volume</h3></div><div><p>The daily chart plots the failed rate as a line over the email volume, so a spike in failures is visible even on days with fewer emails.</p></div></article>
       <article class="proj"><div><h3>Health status in a tooltip</h3></div><div><p>A tooltip page keeps the main report uncluttered while still giving a one-glance health check for any project.</p></div></article>
