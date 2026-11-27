@@ -3,179 +3,140 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ginno Citra | Power BI Developer | Business Intelligence & Automation</title>
-<meta name="description" content="Ginno Citra is a Power BI Developer focused on business intelligence, interactive dashboards, data modeling, and business process automation.">
+<title>Customer Aging Dashboard | Ginno Citra</title>
+<meta name="description" content="Power BI customer aging dashboard with DAX aging buckets, a top past-due chart and invoice-level drillthrough.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#top">Ginno Citra</a>
+    <a class="brand" href="index.html">Ginno Citra</a>
     <nav aria-label="Main">
-      <a href="#powerbi">Power BI</a>
-      <a href="#automation">Automation</a>
-      <a href="#skills">Skills</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a class="nav-resume" href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a>
+      <a href="index.html#powerbi">Power BI</a>
+      <a href="index.html#automation">Automation</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Resume</a>
     </nav>
   </div>
 </header>
 
-<main id="top">
+<main>
   <div class="herobg">
-    <div class="wrap hero">
-      <h1>Power BI Developer | Business Intelligence &amp; Automation</h1>
-      <p><strong>From raw data to clear decisions.</strong> I build interactive Power BI dashboards, develop data models, and automate business workflows to improve reporting, visibility, and operational efficiency.</p>
-      <div class="btns">
-        <a class="btn primary" href="#powerbi">Explore my Power BI projects</a>
-        <a class="btn ghost" href="#contact">Get in touch</a>
+    <div class="wrap pagehero">
+      <a class="back" href="index.html#powerbi">&larr; Back to projects</a>
+      <h1>Customer aging dashboard</h1>
+      <p>A Power BI report that shows which customers owe money and how long it has been outstanding. A summary page gives managers the big picture, and a detail page drills down to individual ledger entries.</p>
+      <div class="meta">
+        <span><strong>Tools:</strong> Power BI, DAX, Power Query</span>
+        <span><strong>Report date:</strong> April 30, 2025</span>
+        <span><strong>Pages:</strong> Aging Summary, Aging Detail</span>
       </div>
     </div>
   </div>
 
-  <section id="powerbi" class="mint">
+  <section class="mint body">
     <div class="wrap">
-      <h2>Power BI projects</h2>
-      <p class="lede">Dashboards built on ledger, log and sales data, with DAX, Power Query and drillthrough.</p>
+      <h2>The problem</h2>
+      <p>Statements of account are sent in advance each month, and the ledger covers several years of charges and payments. Managers need to see who is overdue, and by how much, without searching through thousands of rows. Billers, the accounting supervisor and managers, and operations use it for their monthly report.</p>
+
+      <h2 style="margin-top:2rem">The data</h2>
+      <p>The report is built on customer ledger entries linked to a customer list, a units list, tenant charge types, and a date table. All names and amounts shown are anonymized.</p>
+
+      <figure class="shot">
+        <span class="ph">Customer Aging Summary<br>Overview of outstanding balances, aging buckets and customer exposure.</span>
+        <img src="assets/aging-summary.png" alt="Aging Summary page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">
+      </figure>
+      <p class="cap">Aging Summary: KPI cards for net balance, past due, advance payments and % over 90 days, with past due broken down by customer type, charge type, aging bucket and building, plus the top 10 owners.</p>
+    </div>
+  </section>
+
+  <section class="cream">
+    <div class="wrap">
+      <h2>Data model: a star schema</h2>
+      <p>The report uses a star schema. Customer Ledger Entries is the fact table, and four dimension tables describe it: CustomerList, TenantCharge, UnitList and DateTable. Every relationship is one-to-many and filters in one direction, from the dimension to the ledger, so slicers and visuals behave predictably.</p>
+      <p>The aging bucket and its sort order are calculated columns in the ledger table.</p>
+
+      <figure class="shot">
+        <span class="ph">Power BI Data Model<br>Star schema showing the fact table and its four dimension tables.</span>
+        <a href="assets/aging-data-model.png" target="_blank" rel="noopener">
+          <img src="assets/aging-data-model.png" alt="Power BI model view showing the Customer Ledger Entries fact table connected to the CustomerList, TenantCharge, UnitList and DateTable dimension tables" onload="this.closest('figure').classList.add('ok')" onerror="this.remove()">
+        </a>
+      </figure>
+      <p class="cap">Model view: Customer Ledger Entries (the fact table) connected to four dimension tables. Click the image to see it full size.</p>
+    </div>
+  </section>
+
+  <section class="mint">
+    <div class="wrap">
+      <h2>Design decisions</h2>
+      <p class="lede">Each decision below answers a real question about how the numbers should be read.</p>
 
       <article class="proj">
-        <div>
-          <h3>Customer aging dashboard</h3>
-          <p class="tools">Power BI · DAX · Power Query</p>
-          <a class="thumb" href="aging-dashboard.html" tabindex="-1" aria-hidden="true"><img src="assets/aging-summary.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
-        </div>
-        <div>
-          <p>Shows which customers owe what, and for how long, from a customer ledger. Aging buckets are built with SWITCH in DAX and follow the billing month, advance payments are kept out of past-due totals, and a drillthrough page opens the invoice-level detail. Billers, the accounting supervisor and managers, and operations use it for their monthly report.</p>
-          <p class="status live"><a href="aging-dashboard.html">Read the case study</a></p>
-        </div>
+        <div><h3>Aging by billing month</h3></div>
+        <div><p>Buckets follow the billing month rather than exact day counts. April 2025 billing falls in 0&ndash;30, March in 31&ndash;60, and so on, which matches how statements are sent. I built the buckets with SWITCH in a DAX calculated column, plus a second column to control the sort order.</p></div>
       </article>
 
       <article class="proj">
-        <div>
-          <h3>Email delivery monitoring</h3>
-          <p class="tools">Power BI · DAX · Dynamic RLS</p>
-          <a class="thumb" href="email-delivery-monitoring.html" tabindex="-1" aria-hidden="true"><img src="assets/email-dashboard.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
-        </div>
-        <div>
-          <p>Tracks delivered and failed billing and receipt emails by project. Dynamic row-level security means each manager sees only their own projects. It is used by 7 managers across 40 projects.</p>
-          <p class="status live"><a href="email-delivery-monitoring.html">Read the case study</a></p>
-        </div>
+        <div><h3>Charges due on the report date</h3></div>
+        <div><p>Anything due on the report date, April 30, 2025, goes in the 1&ndash;30 days bucket instead of Current, so charges due that day are treated as owed, not hidden.</p></div>
       </article>
 
       <article class="proj">
-        <div>
-          <h3>Title monitoring</h3>
-          <p class="tools">Power BI · DAX</p>
-          <a class="thumb" href="title-monitoring.html" tabindex="-1" aria-hidden="true"><img src="assets/title-monitoring-dashboard.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
-        </div>
-        <div>
-          <p>Tracks where each title is, which ones are released or overdue, and whether the property system is up to date. It tracks about 900 titles, with more coming, and Finance manages it.</p>
-          <p class="status live"><a href="title-monitoring.html">Read the case study</a></p>
-        </div>
+        <div><h3>Posting Date instead of Due Date</h3></div>
+        <div><p>Some Due Date values are blank in the ledger, so I used Posting Date for the aging and detail tables. This keeps every row in a bucket.</p></div>
       </article>
 
       <article class="proj">
-        <div>
-          <h3>Superstore sales and profit</h3>
-          <p class="tools">Power BI · DAX · Power Query · Excel</p>
-          <a class="thumb" href="superstore-dashboard.html" tabindex="-1" aria-hidden="true"><img src="assets/executive-overview.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
-        </div>
-        <div>
-          <p>A three-page report on the Superstore sample data: an executive overview, product performance, and customers by region.</p>
-          <p class="status live"><a href="superstore-dashboard.html">Read the case study</a></p>
-        </div>
+        <div><h3>Advance payments kept separate</h3></div>
+        <div><p>Payments made ahead of time are labeled as advance payments and shown as their own KPI, so they don't reduce the past-due totals. Net Balance then combines the two: past due plus advance payments.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>Top 10 shows owners only</h3></div>
+        <div><p>The developer owns many unsold units and carries one very large balance, so the Top 10 table excludes it and says so in a note below the table. The developer's balance still appears in the Past Due by Customer Type chart.</p></div>
+      </article>
+
+      <article class="proj">
+        <div><h3>A target for % over 90 days</h3></div>
+        <div><p>The % over 90 days card divides Over 90 Days by Total Past Due and compares it with a 50% target. At 84.7% it is currently flagged Critical, so the problem stands out right away.</p></div>
       </article>
     </div>
   </section>
 
-  <section id="automation" class="cream">
+  <section class="cream body">
     <div class="wrap">
-      <h2>Automation projects</h2>
-      <p class="lede">Workflows I built to remove manual follow-up. The first two run at my current job.</p>
+      <h2>Drillthrough to invoice detail</h2>
+      <p>On the summary page, right-click a customer to open the Aging Detail page filtered to that customer, showing the individual ledger entries behind the numbers.</p>
 
-      <article class="proj">
-        <div>
-          <h3>VPN password expiry reminders</h3>
-          <p class="tools">Power Automate · Excel · Microsoft 365</p>
-          <a class="thumb" href="vpn-password-expiry.html" tabindex="-1" aria-hidden="true"><img src="assets/vpn-expiry-flow.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
-        </div>
-        <div>
-          <p>Checks the VPN user list every day, warns users when their password is about to expire, and notifies them again once it has. It covers around 190 employees, and the IS Team updates the user list weekly.</p>
-          <p class="status live"><a href="vpn-password-expiry.html">Read the case study</a></p>
-        </div>
-      </article>
-
-      <article class="proj">
-        <div>
-          <h3>Ticket approval workflow</h3>
-          <p class="tools">Power Automate · Microsoft Forms · Excel · Outlook</p>
-          <a class="thumb" href="ticket-approval-workflow.html" tabindex="-1" aria-hidden="true"><img src="assets/ticket-approval-flow.png" alt="" loading="lazy" onerror="this.parentNode.remove()"></a>
-        </div>
-        <div>
-          <p>A form creates a numbered ticket, requests approval when the category needs it, and emails the requester the outcome. It logs around 480 tickets a month.</p>
-          <p class="status live"><a href="ticket-approval-workflow.html">Read the case study</a></p>
-        </div>
-      </article>
-
-      <article class="proj">
-        <div>
-          <h3>AI helpdesk ticket triage</h3>
-          <p class="tools">Make.com · Google Sheets · Gemini</p>
-        </div>
-        <div>
-          <p>A form logs tickets to a sheet, an AI step categorizes and prioritizes each one, and high-priority tickets trigger an urgent alert.</p>
-          <p class="status wip">In progress</p>
-        </div>
-      </article>
+      <figure class="shot">
+        <span class="ph">Customer Aging Detail<br>Invoice-level breakdown of outstanding balances by customer and aging bucket.</span>
+        <img src="assets/aging-detail.png" alt="Aging Detail page of the Power BI dashboard" onload="this.parentNode.classList.add('ok')" onerror="this.remove()">
+      </figure>
+      <p class="cap">Aging Detail: ledger entries for the selected customer, grouped by aging bucket.</p>
     </div>
   </section>
 
-  <section id="skills" class="mint">
+  <section class="dark contact">
     <div class="wrap">
-      <h2>Skills</h2>
-      <ul class="skills">
-        <li><strong>Power BI</strong><span>DAX, data modeling, drillthrough, row-level security</span></li>
-        <li><strong>Power Query and Excel</strong><span>Cleaning, transforming and reporting data</span></li>
-        <li><strong>SQL</strong><span>Joins, filtering and CASE logic on business data</span></li>
-        <li><strong>Power Automate</strong><span>Approvals, notifications and Forms workflows</span></li>
-        <li><strong>Smartsheet</strong><span>Monitoring, ticketing, dashboards and automated workflows</span></li>
-        <li><strong>Make.com and AI</strong><span>Automations with an AI step (learning, project in progress)</span></li>
-        <li><strong>IT systems support</strong><span>Troubleshooting and administration</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="about" class="about cream">
-    <div class="wrap">
-      <h2>About</h2>
-      <p>I have hands-on experience in Information Systems, supporting business operations, managing internal systems, 
-        and improving workflows through technology. I also build Power BI dashboards and business automations 
-        that turn data into actionable insights, reduce manual work, and help teams make better decisions.</p>
-      <br>
-      <p>My goal is to create practical technology solutions that make business processes more efficient.</p>
-    </div>
-  </section>
-
-  <section id="contact" class="contact dark">
-    <div class="wrap">
-      <h2>Contact</h2>
-      <p>I'm open to Power BI Developer opportunities and selected business automation projects.</p>
+      <h2>Want to see more?</h2>
+      <p>I'm happy to walk through how the model and measures work.</p>
       <div class="btns">
-        <a class="btn primary" href="mailto:ginnocitra.work@gmail.com">Email me</a>
-        <a class="btn ghost" href="https://www.linkedin.com/in/ginno-citra/">LinkedIn</a>
-        <a class="btn ghost" href="assets/Ginno-Citra-Resume.pdf" download="Ginno-Citra-Resume.pdf">Download resume (PDF)</a>
+        <a class="btn primary" href="index.html#contact">Get in touch</a>
+        <a class="btn ghost" href="index.html#powerbi">Back to projects</a>
       </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">© 2026 Ginno Citra</div>
+  <div class="wrap">&copy; 2026 Ginno Citra</div>
 </footer>
+
 </body>
 </html>
